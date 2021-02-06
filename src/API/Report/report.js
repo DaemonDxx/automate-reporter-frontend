@@ -27,6 +27,12 @@ export async function CreateReport(type) {
     const response = await http.post(URL, {
         type
     });
-    console.log(response);
+    return response.data;
+}
+
+export async function UpdateReport(report) {
+    const response = await http.put(URL, {
+        ...report
+    });
     return response.data;
 }

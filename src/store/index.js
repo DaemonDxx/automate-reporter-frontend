@@ -8,9 +8,13 @@ Vue.use(Vuex)
 const ACTION_GET_REPORTS = "ACTION_GET_REPORTS";
 const ACTION_CREATE_REPORT = "ACTION_CREATE_REPORT";
 const ACTION_SET_SELECTED_REPORT = "ACTION_SET_SELECTED_REPORT";
+const ACTION_UPDATE_FIELD_IN_REPORT = "ACTION_UPDATE_FIELD_IN_REPORT";
+const ACTION_UPDATE_SELECTED_REPORT_IN_SERVER = "ACTION_UPDATE_SELECTED_REPORT_IN_SERVER";
 
 const MUTATION_UPDATE_REPORTS = "MUTATION_UPDATE_REPORTS";
 const MUTATION_SET_SELECTED_REPORT = "MUTATION_SET_SELECTED_REPORT";
+const MUTATION_UPDATE_FIELD_IN_REPORT = "MUTATION_UPDATE_FIELD_IN_REPORT";
+
 
 export default new Vuex.Store({
   state: {
@@ -32,7 +36,12 @@ export default new Vuex.Store({
 
     [MUTATION_SET_SELECTED_REPORT] (state, report) {
       state.selectedReport = report;
+    },
+
+    [MUTATION_UPDATE_FIELD_IN_REPORT] (state, {field, value}) {
+      state.selectedReport[field] = value;
     }
+
   },
 
   actions: {
@@ -49,6 +58,18 @@ export default new Vuex.Store({
 
     async [ACTION_SET_SELECTED_REPORT] ({commit}, report) {
       commit(MUTATION_SET_SELECTED_REPORT, report);
+    },
+
+    async [ACTION_UPDATE_SELECTED_REPORT_IN_SERVER] ({commit}, updatedReport) {
+      const updateReport = await API.Report.UpdateReport(updatedReport);
+      commit(MUTATION_SET_SELECTED_REPORT, updateReport);
+    },
+
+    async [ACTION_UPDATE_FIELD_IN_REPORT] ({state, dispatch}, {value, field}) {
+      const body = {...state.selectedReport};
+      body[field] = value;
+      await dispatch(ACTION_UPDATE_SELECTED_REPORT_IN_SERVER, body);
+      await dispatch(ACTION_GET_REPORTS);
     }
 
   },
@@ -61,4 +82,4 @@ export default new Vuex.Store({
   }
 })
 
-export {ACTION_GET_REPORTS, ACTION_CREATE_REPORT, ACTION_SET_SELECTED_REPORT}
+export {ACTION_GET_REPORTS, ACTION_CREATE_REPORT, ACTION_SET_SELECTED_REPORT, ACTION_UPDATE_FIELD_IN_REPORT}

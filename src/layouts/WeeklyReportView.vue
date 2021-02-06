@@ -1,16 +1,22 @@
 <template>
     <v-card>
-      <v-card-title>
-      </v-card-title>
-
+      Пример
     </v-card>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import {mapActions, mapGetters} from "vuex";
+import {ACTION_UPDATE_FIELD_IN_REPORT} from "@/store";
 
 export default {
   name: "WeeklyReportView",
+  methods: {
+    ...mapActions([ACTION_UPDATE_FIELD_IN_REPORT]),
+
+    async updateReport(event) {
+      await this[ACTION_UPDATE_FIELD_IN_REPORT](event);
+    }
+  },
   computed: {
     ...mapGetters(["selectedReport"])
   },
@@ -25,5 +31,9 @@ export default {
 </script>
 
 <style scoped>
+
+.no-border {
+  border: none;
+}
 
 </style>

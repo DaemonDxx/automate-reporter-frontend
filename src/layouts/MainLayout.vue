@@ -79,6 +79,9 @@
                     {{selectedReport.description}}
                   </v-list-item-subtitle>
                 </v-list-item-content>
+                <v-list-item-action-text>
+                  {{`${selectedReport.year}.${selectedReport.month+1}.${selectedReport.day}`}}
+                </v-list-item-action-text>
               </v-list-item>
 
               <v-list-item v-else
@@ -108,8 +111,10 @@
                       <v-list-item-subtitle>
                         {{item.description}}
                       </v-list-item-subtitle>
-
                     </v-list-item-content>
+                    <v-list-item-action-text>
+                      {{`${selectedReport.year}.${selectedReport.month+1}.${selectedReport.day}`}}
+                    </v-list-item-action-text>
                   </v-list-item>
                 </v-list-item-group>
               </v-list>
@@ -118,9 +123,39 @@
           <v-col
             cols="9"
           >
-              <router-view>
+            <v-row>
+              <v-col cols="12">
+                <v-card>
+                  <v-card-title>
+                    <my-editable-span
+                        :text="selectedReport.description"
+                        field="description"
+                        v-on:update="updateReport"
+                    >
+                    </my-editable-span>
+                  </v-card-title>
+                  <v-card-subtitle>
+                    Еженедельный
+                  </v-card-subtitle>
+                  <v-card-text>
+                    sdfsfd
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn block outlined color="green">
+                      Сформировать отчет
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="12">
+                <router-view>
 
-              </router-view>
+                </router-view>
+              </v-col>
+
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
@@ -130,12 +165,21 @@
 
 <script>
 
-import {ACTION_CREATE_REPORT, ACTION_GET_REPORTS, ACTION_SET_SELECTED_REPORT} from "@/store";
+import {
+  ACTION_CREATE_REPORT,
+  ACTION_GET_REPORTS,
+  ACTION_SET_SELECTED_REPORT,
+  ACTION_UPDATE_FIELD_IN_REPORT
+} from "@/store";
 import {mapActions, mapGetters} from "vuex";
 import {getArrayOfTypesReport} from '../TYPES_REPORT';
+import MyEditableSpan from "@/components/MyEditableSpan";
 
 export default {
   name: "MainLayout",
+  components: {
+    MyEditableSpan
+  },
   data: () => {
     return {
       types: getArrayOfTypesReport(),
@@ -154,8 +198,11 @@ export default {
       this.modalCreateReport = false;
       await this[ACTION_GET_REPORTS]();
     },
+    async updateReport(event) {
+      await this[ACTION_UPDATE_FIELD_IN_REPORT](event);
+    },
 
-    ...mapActions([ACTION_GET_REPORTS, ACTION_SET_SELECTED_REPORT, ACTION_CREATE_REPORT]),
+    ...mapActions([ACTION_GET_REPORTS, ACTION_SET_SELECTED_REPORT, ACTION_CREATE_REPORT, ACTION_UPDATE_FIELD_IN_REPORT]),
   },
   computed: {
     ...mapGetters(['reports', "selectedReport"])
