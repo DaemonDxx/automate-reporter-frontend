@@ -1,13 +1,12 @@
 <template>
   <v-select
       outlined
-
-    solo
-    flat
-    item-value="_id"
-    :disabled="isEmptyArray"
-    v-model="selectedFile"
-    :items="files"
+      solo
+      flat
+      item-value="_id"
+      :disabled="isEmptyArray"
+      v-model="selectedFile"
+      :items="files"
   >
     <template v-slot:prepend-inner
     >
@@ -45,7 +44,6 @@ export default {
   name: "MyFileChips",
   data: () => {
     return {
-      file: null,
     }
   },
   props: [
@@ -62,10 +60,10 @@ export default {
   computed: {
 
     selectedFile: {
-      set: function (value) {
-        this.file = this.files.filter((item) => {
-          return item._id === value;
-        })[0];
+      set: function (newValue) {
+        if (this.selectedFile._id !== newValue) {
+          this.$emit('updateStatus', newValue);
+        }
       },
 
       get: function () {

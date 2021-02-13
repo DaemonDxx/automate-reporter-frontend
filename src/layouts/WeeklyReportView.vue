@@ -10,6 +10,7 @@
          <my-file-chips
             :department="department"
             :files="filesByDepartment(department)"
+            v-on:updateStatus="updateStatusOfFile"
          >
 
          </my-file-chips>
@@ -26,7 +27,7 @@
 <script>
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_SET_SELECTED_REPORT, ACTION_UPDATE_FIELD_IN_REPORT} from "@/store";
-import {ACTION_SEND_FILE, ACTION_GET_FILES_BY_REPORT} from "@/store/weekly";
+import {ACTION_SEND_FILE, ACTION_GET_FILES_BY_REPORT, ACTION_SET_ACTIVE_STATUS} from "@/store/weekly";
 import MyFileUpload from "@/components/MyFileUpload";
 import MyFileChips from "@/components/MyFileChips";
 
@@ -50,7 +51,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions([ACTION_SEND_FILE, ACTION_SET_SELECTED_REPORT, ACTION_GET_FILES_BY_REPORT]),
+    ...mapActions([
+        ACTION_SEND_FILE,
+        ACTION_SET_SELECTED_REPORT,
+        ACTION_GET_FILES_BY_REPORT,
+        ACTION_SET_ACTIVE_STATUS
+    ]),
+
+    async updateStatusOfFile(fileID) {
+      await this[ACTION_SET_ACTIVE_STATUS](fileID);
+    },
 
     async updateReport(event) {
       await this[ACTION_UPDATE_FIELD_IN_REPORT](event);

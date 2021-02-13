@@ -19,11 +19,9 @@ export async function createFile(filename, reportID) {
     return response;
 }
 
-export async function getFilesByReport(report) {
-    const response = await http.get(URL, {
-        params: {
-            report: report
-        }
+export async function setActiveStatus(fileID) {
+    const response = await http.put(URL, {
+        fileID
     });
     return response.data;
 }
