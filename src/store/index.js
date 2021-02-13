@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {API} from '../API/index'
 import {getArrayOfTypesReport} from "@/TYPES_REPORT";
+import {Weekly} from "@/store/weekly";
 
 Vue.use(Vuex)
 
@@ -56,7 +57,8 @@ export default new Vuex.Store({
       commit(MUTATION_SET_SELECTED_REPORT, newReport);
     },
 
-    async [ACTION_SET_SELECTED_REPORT] ({commit}, report) {
+    async [ACTION_SET_SELECTED_REPORT] ({commit}, idReport) {
+      const report = await API.Report.GetReportByID(idReport);
       commit(MUTATION_SET_SELECTED_REPORT, report);
     },
 
@@ -79,6 +81,7 @@ export default new Vuex.Store({
     selectedReport: state => state.selectedReport
   },
   modules: {
+    Weekly: Weekly
   }
 })
 

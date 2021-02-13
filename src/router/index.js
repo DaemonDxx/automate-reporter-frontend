@@ -13,7 +13,8 @@ const routes = [
     component: MainLayout,
     children: [
       {
-        path: 'weekly',
+        path: 'weekly/:id',
+        name: 'weekly',
         component: WeeklyReportView,
       }
     ]

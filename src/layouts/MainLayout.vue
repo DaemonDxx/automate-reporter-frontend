@@ -113,7 +113,7 @@
                       </v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action-text>
-                      {{`${selectedReport.year}.${selectedReport.month+1}.${selectedReport.day}`}}
+                      {{`${item.year}.${item.month+1}.${item.day}`}}
                     </v-list-item-action-text>
                   </v-list-item>
                 </v-list-item-group>
@@ -125,7 +125,7 @@
           >
             <v-row>
               <v-col cols="12">
-                <v-card>
+                <v-card v-if="selectedReport">
                   <v-card-title>
                     <my-editable-span
                         :text="selectedReport.description"
@@ -188,9 +188,8 @@ export default {
   },
   methods: {
     selectReport(report) {
-      this[ACTION_SET_SELECTED_REPORT](report);
-      if (`/report/${report.type}` !== this.$router.history.current.fullPath) {
-        this.$router.push(`/report/${report.type}`);
+      if (report._id !== this.selectedReport?._id && this.$route.params.id !== report._id) {
+        this.$router.push({name: 'weekly', params: {id: report._id}});
       }
     },
     async createReport(type) {
@@ -209,7 +208,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch(ACTION_GET_REPORTS);
-
   }
 }
 </script>
