@@ -40,7 +40,13 @@ export const Weekly = {
     },
 
     getters: {
+        files: state => state.files,
 
+        filesByDepartment: state => department => {
+            return state.files.filter((item) => {
+                return item.department === department
+            });
+        }
     }
 
 }

@@ -1,10 +1,20 @@
 <template>
     <v-card>
-      <my-file-chips
-        department="Алтайэнерго"
-        :files="files"
-      >
-      </my-file-chips>
+     <v-row
+      class="pa-3"
+     >
+       <v-col
+           v-for="department in listOfDepartment"
+           :key="department"
+           cols="4">
+         <my-file-chips
+            :department="department"
+            :files="filesByDepartment(department)"
+         >
+
+         </my-file-chips>
+       </v-col>
+     </v-row>
      <my-file-upload
       v-on:saveFile="sendFile"
      >
@@ -26,20 +36,16 @@ export default {
   data: () => {
     return {
       currentIdReport: '',
-      fileUpload: undefined,
-      files: [
-        {
-          filename: 'АЭ2221.xlsx',
-          department: 'Филиал',
-          version: 2,
-          errors: []
-        },
-        {
-          filename: 'АЭ33123.xlsx',
-          department: 'Филиал',
-          version: 1,
-          errors: ['d']
-        }
+      listOfDepartment: [
+          'Алтайэнерго',
+          'Бурятэнерго',
+          'ГАЭС',
+          'Красноярскэнерго',
+          'Кузбассэнерго-РЭС',
+          'Омскэнерго',
+          'Читаэнерго',
+          'Хакасэнерго',
+          'АО "Тываэнерго"'
       ]
     }
   },
@@ -56,7 +62,7 @@ export default {
 
   },
   computed: {
-    ...mapGetters(["selectedReport"])
+    ...mapGetters(["selectedReport", "files", "filesByDepartment"])
   },
   watch: {
     $route(to, from) {

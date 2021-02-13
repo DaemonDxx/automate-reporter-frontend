@@ -20,11 +20,6 @@ export default {
   name: "MyFileUpload",
   data: () => {
     return {
-      files: [{
-        filename: 'Алтайэнерго',
-        version: 2,
-        department: 'Алтайэнерго'
-      }]
     }
   },
   methods: {
