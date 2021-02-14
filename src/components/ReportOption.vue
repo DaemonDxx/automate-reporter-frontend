@@ -125,6 +125,7 @@ export default {
       this.modalDeleteReport = false;
       await this[ACTION_DELETE_REPORT]();
       await this[ACTION_GET_REPORTS]();
+      await this.$router.push('/report');
     },
 
     async updateReport(event) {

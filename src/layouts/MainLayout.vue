@@ -137,7 +137,6 @@ export default {
   },
   methods: {
     selectReport(report) {
-      console.log(report);
       if (report._id !== this.selectedReport?._id && this.$route.params.id !== report._id) {
         this[ACTION_SET_SELECTED_REPORT](report._id);
         this.$router.push({name: 'weekly', params: {id: report._id}});
