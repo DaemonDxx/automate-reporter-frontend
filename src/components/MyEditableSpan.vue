@@ -55,8 +55,8 @@ export default {
 
 
 .editable-span {
-  display: block;
-  width: 100%;
+  display: inline-block;
+  width: 50%;
 }
 
 .editable-span__text {

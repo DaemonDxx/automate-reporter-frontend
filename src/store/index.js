@@ -6,11 +6,13 @@ import {Weekly} from "@/store/weekly";
 
 Vue.use(Vuex)
 
-const ACTION_GET_REPORTS = "ACTION_GET_REPORTS";
-const ACTION_CREATE_REPORT = "ACTION_CREATE_REPORT";
-const ACTION_SET_SELECTED_REPORT = "ACTION_SET_SELECTED_REPORT";
-const ACTION_UPDATE_FIELD_IN_REPORT = "ACTION_UPDATE_FIELD_IN_REPORT";
-const ACTION_UPDATE_SELECTED_REPORT_IN_SERVER = "ACTION_UPDATE_SELECTED_REPORT_IN_SERVER";
+export const ACTION_GET_REPORTS = "ACTION_GET_REPORTS";
+export const ACTION_CREATE_REPORT = "ACTION_CREATE_REPORT";
+export const ACTION_SET_SELECTED_REPORT = "ACTION_SET_SELECTED_REPORT";
+export const ACTION_UPDATE_FIELD_IN_REPORT = "ACTION_UPDATE_FIELD_IN_REPORT";
+export const ACTION_UPDATE_SELECTED_REPORT_IN_SERVER = "ACTION_UPDATE_SELECTED_REPORT_IN_SERVER";
+export const ACTION_DELETE_REPORT = "ACTION_DELETE_REPORT";
+export const ACTION_RESET_SELECTED_REPORT = "ACTION_RESET_SELECTED_REPORT";
 
 const MUTATION_UPDATE_REPORTS = "MUTATION_UPDATE_REPORTS";
 const MUTATION_SET_SELECTED_REPORT = "MUTATION_SET_SELECTED_REPORT";
@@ -51,10 +53,9 @@ export default new Vuex.Store({
       commit(MUTATION_UPDATE_REPORTS, reports);
     },
 
-    async [ACTION_CREATE_REPORT] ({commit}, type) {
-      const newReport = await API.Report.CreateReport(type);
-      console.log(newReport);
-      commit(MUTATION_SET_SELECTED_REPORT, newReport);
+    async [ACTION_CREATE_REPORT] (ctx, newReport) {
+      const report = await API.Report.CreateReport(newReport);
+      return report;
     },
 
     async [ACTION_SET_SELECTED_REPORT] ({commit}, idReport) {
@@ -72,6 +73,15 @@ export default new Vuex.Store({
       body[field] = value;
       await dispatch(ACTION_UPDATE_SELECTED_REPORT_IN_SERVER, body);
       await dispatch(ACTION_GET_REPORTS);
+    },
+
+    async [ACTION_DELETE_REPORT] ({commit, state}) {
+      await API.Report.DeleteReport(state.selectedReport);
+      commit(MUTATION_SET_SELECTED_REPORT, undefined);
+    },
+
+    [ACTION_RESET_SELECTED_REPORT] ({commit}) {
+      commit(MUTATION_SET_SELECTED_REPORT, undefined);
     }
 
   },
@@ -84,5 +94,3 @@ export default new Vuex.Store({
     Weekly: Weekly
   }
 })
-
-export {ACTION_GET_REPORTS, ACTION_CREATE_REPORT, ACTION_SET_SELECTED_REPORT, ACTION_UPDATE_FIELD_IN_REPORT}

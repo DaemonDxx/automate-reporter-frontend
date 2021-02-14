@@ -23,10 +23,8 @@ export async function GetReport(query) {
     return response.data;
 }
 
-export async function CreateReport(type) {
-    const response = await http.post(URL, {
-        type
-    });
+export async function CreateReport(newReport) {
+    const response = await http.post(URL, newReport);
     return response.data;
 }
 
@@ -35,4 +33,13 @@ export async function UpdateReport(report) {
         ...report
     });
     return response.data;
+}
+
+export async function DeleteReport(report) {
+    const response = await http.delete(URL, {
+        data: {
+            reportID: report._id
+        }
+    });
+    return response.data
 }

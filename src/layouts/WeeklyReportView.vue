@@ -77,7 +77,6 @@ export default {
   watch: {
     $route(to, from) {
       if (to.params.id !== from.params.id) {
-        this[ACTION_SET_SELECTED_REPORT](to.params.id);
         this[ACTION_GET_FILES_BY_REPORT](to.params.id);
       }
     }
