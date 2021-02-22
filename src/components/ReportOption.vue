@@ -53,7 +53,7 @@
         </v-dialog>
       </v-card-title>
       <v-card-subtitle>
-        {{typeOfReport}}
+        {{`${typeOfReport} отчет от ${report.day}.${report.month+1}.${report.year}`}}
       </v-card-subtitle>
       <v-card-text>
 
