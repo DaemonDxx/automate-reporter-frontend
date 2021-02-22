@@ -6,8 +6,7 @@
         <TFilterOption>
           <template v-slot:year-selector>
             <year-selector
-              :year-items="years"
-              :selected="selectYears"
+              :year-items="accessYears"
               v-on:update="updateYear"
             >
 
@@ -15,7 +14,7 @@
           </template>
           <template v-slot:month-selector>
             <month-selector
-                :active-month="arr"
+                :active-month="accessMonth"
             >
             </month-selector>
           </template>
@@ -35,20 +34,34 @@ import TFilterOption from "@/views/TemperatureLayout/TFilterOption";
 import MonthSelector from "@/components/TemperatureLayout/MonthSelector";
 import YearSelector from "@/components/TemperatureLayout/YearSelector";
 import DepartmentSelector from "@/components/TemperatureLayout/DepartmentSelector";
+import {mapActions, mapGetters} from "vuex";
+import {ACTION_GET_OFFSETS, ACTION_GET_YEARS} from "@/store/temperature";
 export default {
   name: "TemperatureLayout",
   data: () => {
     return {
-      arr: [],
-      years: [2014,2015,2016],
-      selectYears: [],
+      arr: [0,1,2],
     }
   },
   components: {DepartmentSelector, YearSelector, MonthSelector, TFilterOption},
   methods: {
-    updateYear(years) {
-      this.selectYears = years;
+    ...mapActions([ACTION_GET_YEARS, ACTION_GET_OFFSETS]),
+
+    async updateYear(indexesYear) {
+      if (indexesYear.length == 2) {
+        let year1 = this.accessYears[indexesYear[0]];
+        let year2 = this.accessYears[indexesYear[1]];
+        await this[ACTION_GET_OFFSETS]({year1, year2});
+      }
     }
+  },
+
+  computed: {
+    ...mapGetters(['accessYears', 'accessMonth'])
+  },
+
+  async created() {
+    await this[ACTION_GET_YEARS]();
   }
 }
 </script>

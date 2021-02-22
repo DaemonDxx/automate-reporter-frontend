@@ -8,7 +8,7 @@
 
       <v-btn-toggle
           multiple
-          v-model="values"
+          v-model="selected"
       >
         <v-row>
         <v-col
@@ -49,28 +49,32 @@ export default {
           'Окт',
           'Ноя',
           'Дек'
-      ]
+      ],
+      selected: []
     }
   },
   props: [
-      'activeMonth',
-      'selected'
+      'activeMonth'
   ],
   methods: {
     isBtnDisabled(month) {
       let index = this.months.indexOf(month);
       return !this.activeMonth.includes(index);
+    },
+  },
+
+  created() {
+    for (let i = 0; i < this.activeMonth.length; i++) {
+      this.selected.push(i);
     }
   },
-  computed: {
-      values: {
-        set: function (value) {
-          this.$emit('update', value);
-        },
-        get: function () {
-          return this.selected;
-        }
+
+  watch: {
+    activeMonth: function (value) {
+      for (let i = 0; i < value.length; i++) {
+        this.selected.push(i);
       }
+    }
   }
 
 }

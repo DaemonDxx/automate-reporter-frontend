@@ -11,12 +11,14 @@
       <v-row>
         <v-col
             v-for="year of yearItems"
-            cols="4"
+            cols="3"
             :key="year"
         >
           <v-btn
               :disabled="isBtnDisabled(year)"
               small
+              block
+
               outlined
               color="blue"
           >

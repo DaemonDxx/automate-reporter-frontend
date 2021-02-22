@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {API} from '../API/index'
 import {getArrayOfTypesReport} from "@/TYPES_REPORT";
 import {Weekly} from "@/store/weekly";
+import {Temperature} from "@/store/temperature";
 
 Vue.use(Vuex)
 
@@ -91,6 +92,7 @@ export default new Vuex.Store({
     selectedReport: state => state.selectedReport
   },
   modules: {
-    Weekly: Weekly
+    Weekly: Weekly,
+    Temperature: Temperature
   }
 })
