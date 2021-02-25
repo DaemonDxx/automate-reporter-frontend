@@ -11,7 +11,9 @@
       <v-row>
         <v-col
             v-for="year of yearItems"
-            cols="3"
+            sm="6"
+            md="4"
+            lg="6"
             :key="year"
         >
           <v-btn
@@ -44,7 +46,6 @@ export default {
   },
   methods: {
     update(value) {
-      console.log(value);
       this.$emit('update', value);
     },
     isBtnDisabled(year) {

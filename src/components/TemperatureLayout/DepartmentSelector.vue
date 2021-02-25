@@ -6,6 +6,7 @@
     <v-btn-toggle
         v-model="selected"
       multiple
+        @change="update"
     >
       <v-row
         no-gutters
@@ -53,7 +54,14 @@ export default {
   },
   methods: {
     update(departments) {
-      this.$emit('update', departments);
+      const value = [];
+      for (let index of departments) {
+        value.push(this.departments[index])
+      }
+      this.$emit('update', {
+        field: 'departments',
+        value
+      });
     }
   }
 }

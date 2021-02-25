@@ -9,6 +9,7 @@
       <v-btn-toggle
           multiple
           v-model="selected"
+          @change="update"
       >
         <v-row>
         <v-col
@@ -61,6 +62,13 @@ export default {
       let index = this.months.indexOf(month);
       return !this.activeMonth.includes(index);
     },
+
+    update(value) {
+      this.$emit('update', {
+        field: 'months',
+        value
+      })
+    }
   },
 
   created() {
