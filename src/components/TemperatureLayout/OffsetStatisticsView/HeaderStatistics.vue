@@ -11,6 +11,19 @@
 
       При этом средняя температура ....
     </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn
+          class="mr-2 mb-2 text--white"
+          small
+          color="success"
+      >
+        Скачать в формате excel
+      </v-btn>
+      <v-icon>
+        microsoft-excel
+      </v-icon>
+    </v-card-actions>
   </v-card>
 </template>
 

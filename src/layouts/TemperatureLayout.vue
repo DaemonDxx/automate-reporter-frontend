@@ -23,6 +23,7 @@
           </template>
           <template v-slot:department-selector>
             <department-selector
+                :disabled="isDisabledDepartment"
                 v-on:update="updateFilter"
             >
 
@@ -82,6 +83,7 @@ export default {
         let year2 = this.accessYears[indexesYear[1]];
         await this[ACTION_GET_OFFSETS]({year1, year2});
         this.month = this.accessMonth;
+
       }
     },
 
@@ -92,7 +94,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['accessYears', 'accessMonth', 'sumOffsets'])
+    ...mapGetters(['accessYears', 'accessMonth', 'sumOffsets']),
+
+    isDisabledDepartment: function () {
+      return this.accessMonth.length === 0;
+    }
   },
 
   async created() {

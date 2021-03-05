@@ -5,7 +5,7 @@
     </div>
     <v-btn-toggle
         v-model="selected"
-      multiple
+        multiple
         @change="update"
     >
       <v-row
@@ -20,6 +20,7 @@
               block
               small
               outlined
+              :disabled="disabled"
               color="blue"
           >
             {{department}}
@@ -34,6 +35,9 @@
 <script>
 export default {
   name: "DepartmentSelector",
+  props: [
+    'disabled'
+  ],
   data: () => {
     return {
       selected: [0,1,2,3,4,5,6,7,8],

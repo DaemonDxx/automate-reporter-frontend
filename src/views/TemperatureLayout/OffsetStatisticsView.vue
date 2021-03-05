@@ -1,13 +1,15 @@
 <template>
   <v-container>
+    <HeaderStatistics
+        class="mb-4 elevation-5"
+        :offset="offset"
+    >
+
+    </HeaderStatistics>
     <v-sheet
       rounded
+      class="elevation-5"
     >
-      <HeaderStatistics
-        :offset="offset"
-      >
-
-      </HeaderStatistics>
       <v-data-table
         :headers="headers"
         :items="data"

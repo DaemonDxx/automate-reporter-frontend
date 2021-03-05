@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-sheet
+        class="elevation-5"
       rounded
     >
       <slot name="year-selector">
@@ -23,7 +24,7 @@ export default {
   name: "TFilterOptionView",
   data: () => {
     return {
-      arr: [0,1,2]
+
     }
   }
 }
