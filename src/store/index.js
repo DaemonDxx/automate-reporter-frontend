@@ -4,6 +4,7 @@ import {API} from '../API/index'
 import {getArrayOfTypesReport} from "@/TYPES_REPORT";
 import {Weekly} from "@/store/weekly";
 import {Temperature} from "@/store/temperature";
+import {Auth} from "@/store/auth";
 
 Vue.use(Vuex)
 
@@ -93,6 +94,7 @@ export default new Vuex.Store({
   },
   modules: {
     Weekly: Weekly,
-    Temperature: Temperature
+    Temperature: Temperature,
+    Auth: Auth
   }
 })

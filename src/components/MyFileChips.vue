@@ -97,9 +97,6 @@ export default {
   display: flex
   justify-content: space-between
   width: 100%
-  &__text
-
-
   &__status
     align-self: center
     width: 8px

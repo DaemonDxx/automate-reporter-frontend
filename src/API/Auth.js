@@ -4,8 +4,9 @@ const URL_AUTH = 'auth/login'
 const URL_REG = 'user/'
 
 export async function Registration(username, password, key) {
+    let response;
     try {
-        const response = await http.post(URL_REG, {
+        response = await http.post(URL_REG, {
             username,
             password,
             key,
@@ -17,7 +18,11 @@ export async function Registration(username, password, key) {
             return {err: `Запрос завершился со статусом ${response.status}`}
         }
     } catch (e) {
-        return {err: `Ошибка ${e.message}`}
+        const message = e.response?.data?.message;
+        if (message) {
+            return {err: message}
+        }
+        return {err: e.message}
     }
 }
 

@@ -1,6 +1,8 @@
 <template>
   <v-app >
+    <notifications/>
     <v-app-bar
+        v-if="isAuth"
         color="blue darken-2"
         app>
         <v-app-bar-nav-icon>
@@ -41,8 +43,13 @@
 
 <script>
 
+import {mapGetters} from "vuex";
+
 export default {
   name: "MainLayout",
+  computed: {
+    ...mapGetters(['isAuth']),
+  }
 
 }
 </script>
