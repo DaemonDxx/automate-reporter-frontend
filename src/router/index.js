@@ -7,6 +7,9 @@ import TemperatureLayout from "@/layouts/TemperatureLayout";
 import RegistrationView from "@/views/AuthLayout/RegistrationView";
 import AuthLayout from "@/layouts/AuthLayout";
 import LoginView from "@/views/AuthLayout/LoginView";
+import OffsetHistoryView from "@/views/TemperatureLayout/OffsetHistoryView";
+import SolverView from "@/views/TemperatureLayout/SolverView";
+import ChangerView from "@/views/TemperatureLayout/ChangerView";
 
 
 Vue.use(VueRouter)
@@ -30,9 +33,26 @@ const routes = [
         ]
       },
       {
-        path: '/temperature',
+        path: '/offsets',
         name: 'TemperatureLayout',
-        component: TemperatureLayout
+        component: TemperatureLayout,
+        children: [
+          {
+            name: 'OffsetsHistory',
+            path: 'history',
+            component: OffsetHistoryView
+          },
+          {
+            name: 'Solver',
+            path: 'solver',
+            component: SolverView
+          },
+          {
+            name: 'Changer',
+            path: 'changer',
+            component: ChangerView
+          }
+        ]
       },
       {
         path: '/auth',

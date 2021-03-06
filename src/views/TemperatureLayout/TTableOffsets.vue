@@ -1,36 +1,39 @@
 <template>
   <v-container>
-    <HeaderStatistics
-        class="mb-4 elevation-5"
-        :offset="offset"
+    <v-card
+        rounded
+        class="elevation-5"
     >
-
-    </HeaderStatistics>
-    <v-sheet
-      rounded
-      class="elevation-5"
-    >
-      <v-data-table
-        :headers="headers"
-        :items="data"
-        disable-pagination
-        hide-default-footer
-        no-data-text="Выберите год для сравнения"
+      <v-card-title
+        class="primary"
       >
+        Год
+        <v-row>
+          <v-col>
 
-      </v-data-table>
-    </v-sheet>
+          </v-col>
+        </v-row>
+      </v-card-title>
+      <v-card-text>
+        <v-data-table
+            :headers="headers"
+            :items="data"
+            disable-pagination
+            hide-default-footer
+            no-data-text="Выберите год для сравнения"
+        >
+
+        </v-data-table>
+      </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
 <script>
-
-import HeaderStatistics from "@/components/TemperatureLayout/OffsetStatisticsView/HeaderStatistics";
 export default {
-  name: "OffsetStatisticsView",
-  components: {HeaderStatistics},
+  name: "TTableOffsets",
   props: [
-      'data'
+    'data'
   ],
   data: () => {
     return {
@@ -48,12 +51,14 @@ export default {
   computed: {
     offset: function () {
       const all = this.data.find(item => item.department === 'Итого');
+      console.log(all);
       return all?.offset;
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
+.table-offsets__header
 
 </style>

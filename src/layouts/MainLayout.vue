@@ -17,11 +17,8 @@
         <v-btn class="ml-4 mr-4"
                color="white"
                outlined
-               @click="$router.push('/temperature')"
+               @click="$router.push('/offsets')"
         >
-          <router-link to="/">
-
-          </router-link>
           Температурный фактор
         </v-btn>
         <v-spacer>
