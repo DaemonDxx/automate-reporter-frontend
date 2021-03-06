@@ -94,6 +94,8 @@ export default {
               type: 'error',
             });
             this.isSendRequest = false;
+          } else {
+            await this.$router.push('/');
           }
       }
     }

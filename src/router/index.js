@@ -61,5 +61,16 @@ const router = new VueRouter({
   mode: "history"
 });
 
+router.beforeEach((to, from, next) => {
+  if (to.path === '/auth/reg' || to.path === '/auth/login') {
+    if (localStorage.getItem('token'))
+      next('/')
+  } else {
+    if (!localStorage.getItem('token'))
+      next('/auth/login')
+  }
+  next();
+})
+
 
 export default router
