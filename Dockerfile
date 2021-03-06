@@ -10,7 +10,8 @@ ENTRYPOINT npm run serve
 
 FROM nginx:stable-alpine as production-stage
 
-COPY --from=builder-app-stage /usr/vue/dist /usr/share/nginx/html
+COPY --from=builder-app-stage /usr/vue/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
