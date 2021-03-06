@@ -39,6 +39,10 @@ export async function Login(username, password) {
             return {err: `Запрос завершился со статусом ${response.status}`}
         }
     } catch (e) {
-        return {err: `Ошибка ${e.message}`}
+        const message = e.response?.data?.message;
+        if (message) {
+            return {err: message}
+        }
+        return {err: e.message}
     }
 }

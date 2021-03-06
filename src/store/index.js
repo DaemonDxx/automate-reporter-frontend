@@ -5,6 +5,7 @@ import {getArrayOfTypesReport} from "@/TYPES_REPORT";
 import {Weekly} from "@/store/weekly";
 import {Temperature} from "@/store/temperature";
 import {Auth} from "@/store/auth";
+import {VuexPersistence} from "vuex-persist";
 
 Vue.use(Vuex)
 
@@ -96,5 +97,6 @@ export default new Vuex.Store({
     Weekly: Weekly,
     Temperature: Temperature,
     Auth: Auth
-  }
+  },
+  plugins: [new VuexPersistence({modules: ['Auth']}).plugin]
 })

@@ -9,6 +9,7 @@ const http = new axios.create({
     headers: {
         'Access-Control-Allow-Origin' : '*',
         'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
     },
 })
 

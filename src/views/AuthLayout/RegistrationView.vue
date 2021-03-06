@@ -10,13 +10,12 @@
         </span>
         <v-spacer></v-spacer>
         <v-btn
-          plain
+            class="link-back"
+            link
+            plain
+            @click="$router.push('/auth/login')"
         >
-          <router-link
-              class="link-back"
-              to="/auth/login">
-            Вход
-          </router-link>
+          Вход
         </v-btn>
       </v-card-title>
       <v-card-text class="mt-3">

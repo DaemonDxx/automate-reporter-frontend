@@ -4,8 +4,9 @@ import MainLayout from "@/layouts/MainLayout";
 import WeeklyReportView from "@/views/WeeklyReportView";
 import ReportLayout from "@/layouts/ReportLayout";
 import TemperatureLayout from "@/layouts/TemperatureLayout";
-import RegistrationView from "@/views/MainLayout/RegistrationView";
+import RegistrationView from "@/views/AuthLayout/RegistrationView";
 import AuthLayout from "@/layouts/AuthLayout";
+import LoginView from "@/views/AuthLayout/LoginView";
 
 
 Vue.use(VueRouter)
@@ -42,6 +43,11 @@ const routes = [
             path: 'reg',
             name: 'Registration',
             component: RegistrationView
+          },
+          {
+            path: 'login',
+            name: 'Login',
+            component: LoginView
           }
         ]
       }
