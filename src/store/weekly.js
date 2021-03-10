@@ -44,13 +44,8 @@ export const Weekly = {
         },
 
         async [ACTION_SEND_FILE] (ctx, file) {
-            const reportID = ctx.rootState.selectedReport._id;
-          const response = await API.Storage.sendFile(file);
-          await API.File.createFile(
-              response.filename,
-              reportID
-          );
-          await ctx.dispatch(ACTION_GET_FILES_BY_REPORT, reportID);
+            const response = await API.Storage.sendFile(file);
+            return response;
         },
 
         async[ACTION_SET_ACTIVE_STATUS] ({commit}, fileID) {

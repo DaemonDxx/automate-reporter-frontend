@@ -16,3 +16,16 @@ export async function ResolveOffset(year1, year2) {
     });
     return response.data;
 }
+
+export async function ParseOffsetsOfFile(filename, options) {
+    try {
+        const response = await http.post(`${URL}file`,{
+            filename,
+            options
+        });
+        const statistic = await response.data;
+        return {response: statistic};
+    } catch (e) {
+        return {err: e.response.data.message};
+    }
+}

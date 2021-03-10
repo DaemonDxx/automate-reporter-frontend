@@ -3,6 +3,8 @@ import {API} from "@/API";
 const ACTION_GET_YEARS = 'ACTION_GET_YEARS';
 const ACTION_GET_OFFSETS = 'ACTION_GET_OFFSETS';
 const ACTION_UPDATE_FILTER = 'ACTION_UPDATE_FILTER';
+const ACTION_PARSE_VALUE_FROM_FILE = 'ACTION_PARSE_VALUE_FROM_FILE';
+const ACTION_CLEAR_OFFSETS = 'ACTION_CLEAR_OFFSETS';
 
 const MUTATION_SET_YEARS = 'MUTATION_SET_YEARS';
 const MUTATION_SET_OFFSETS = 'MUTATION_SET_OFFSETS';
@@ -36,8 +38,23 @@ export const Temperature = {
             commit(MUTATION_SET_OFFSETS, offsets);
         },
 
+        async [ACTION_PARSE_VALUE_FROM_FILE] (ctx, filename) {
+            const response = await API.Temperature.ParseOffsetsOfFile(
+                filename, {
+                    yearStart: 2014,
+                    yearEnd: 2021,
+                    isUpdateOldValue: true
+                }
+            );
+            return response;
+        },
+
         [ACTION_UPDATE_FILTER]({commit}, payload) {
             commit(MUTATION_UPDATE_FILTER, payload);
+        },
+
+        [ACTION_CLEAR_OFFSETS] ({commit}) {
+            commit(MUTATION_SET_OFFSETS, []);
         }
     },
 
@@ -46,6 +63,7 @@ export const Temperature = {
             state.accessYears = years;
         },
         [MUTATION_SET_OFFSETS] (state, offsets) {
+            state.offsets = {};
             state.offsets = offsets;
         },
         [MUTATION_UPDATE_FILTER] (state, {filter, value}) {
@@ -95,6 +113,7 @@ export const Temperature = {
                 }
                 for (const month of filters.months) {
                     const offset = state.offsets[department][month];
+                    if (!offset) break;
                     resultDepartment.offset += offset.offset;
                     resultDepartment.receptionBefore += offset.receptionBefore;
                     resultDepartment.receptionNow += offset.receptionNow;
@@ -129,4 +148,4 @@ export const Temperature = {
     }
 }
 
-export {ACTION_GET_YEARS, ACTION_GET_OFFSETS, ACTION_UPDATE_FILTER}
+export {ACTION_GET_YEARS, ACTION_GET_OFFSETS, ACTION_UPDATE_FILTER, ACTION_PARSE_VALUE_FROM_FILE, ACTION_CLEAR_OFFSETS}

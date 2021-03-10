@@ -72,6 +72,7 @@ export default {
   },
 
   created() {
+    this.selected = [];
     for (let i = 0; i < this.activeMonth.length; i++) {
       this.selected.push(i);
     }
@@ -79,8 +80,10 @@ export default {
 
   watch: {
     activeMonth: function (value) {
+      this.selected = [];
       for (let i = 0; i < value.length; i++) {
         this.selected.push(i);
+        this.update(this.selected);
       }
     }
   }

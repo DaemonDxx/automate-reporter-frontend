@@ -7,7 +7,8 @@
       <v-card-title
         class="primary"
       >
-        Год
+        <span class="font-white">tз - Суммарная разница температур в зимние периоды;</span> <br>
+        <span class="font-white">tл - Суммарная разница температур в летние периоды;</span>
         <v-row>
           <v-col>
 
@@ -40,9 +41,9 @@ export default {
       headers: [
         {text: 'Филиал', value: 'department', sortable: true, align: 'center'},
         {text: 'ОС прошлый, тыс кВтч', value: 'receptionBefore', sortable: true, align: 'center'},
-        {text: 't прошлая, Ц', value: 'tempWinter', sortable: true, align: 'center'},
         {text: 'ОС сейчас, тыс кВтч', value: 'receptionNow', sortable: true, align: 'center'},
-        {text: 't сейчас, Ц', value: 'tempSummer', sortable: true, align: 'center'},
+        {text: 'tз, Ц', value: 'tempWinter', sortable: true, align: 'center'},
+        {text: 'tл, Ц', value: 'tempSummer', sortable: true, align: 'center'},
         {text: 't фактор, тыс кВтч', value: 'offset', sortable: true, align: 'center'},
         {text: 'Доля, %', value: 'offsetShare', sortable: true, align: 'center'},
       ]
@@ -51,7 +52,6 @@ export default {
   computed: {
     offset: function () {
       const all = this.data.find(item => item.department === 'Итого');
-      console.log(all);
       return all?.offset;
     }
   }
@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.table-offsets__header
+.font-white
+  color: white
 
 </style>

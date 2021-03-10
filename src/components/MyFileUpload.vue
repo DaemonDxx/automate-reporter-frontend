@@ -6,7 +6,7 @@
   >
     <div class="uploader__drop-zone">
       <div class="uploader__input">
-        <input id="inputFile" type="file">
+        <input @change="changeInput" id="inputFile" type="file">
         <span>Перетащите файл в данную область или </span>
         <label for="inputFile">выбирете файл</label>
       </div>
@@ -27,6 +27,13 @@ export default {
       event.preventDefault();
       this.$emit('saveFile', {
         file: event.dataTransfer.files[0]
+      })
+    },
+
+    changeInput(event) {
+      const file = event.srcElement.files[0];
+      this.$emit('saveFile', {
+        file
       })
     }
   }
