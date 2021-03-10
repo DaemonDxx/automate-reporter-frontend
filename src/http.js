@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const host = process.env.HOST_API;
 
-const URL = host?`http://${host}:3000/`: 'http://localhost:3000/';
-
+const URL = `http://balans-help.ru:3000/`;
 const http = new axios.create({
     baseURL: URL,
     headers: {
