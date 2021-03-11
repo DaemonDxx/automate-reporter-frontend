@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import FilterSelect from "@/components/TemperatureLayout/TableFilters/FilterSelect";
+import FilterSelect from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/FilterSelect";
 
 export default {
   name: "TableFilter",

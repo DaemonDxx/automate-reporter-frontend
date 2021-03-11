@@ -4,17 +4,6 @@
         rounded
         class="elevation-5"
     >
-      <v-card-title
-        class="primary"
-      >
-        <span class="font-white">tз - Суммарная разница температур в зимние периоды;</span> <br>
-        <span class="font-white">tл - Суммарная разница температур в летние периоды;</span>
-        <v-row>
-          <v-col>
-
-          </v-col>
-        </v-row>
-      </v-card-title>
       <v-card-text>
         <v-data-table
             :headers="headers"

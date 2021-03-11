@@ -31,25 +31,32 @@
           md="8"
           lg="9"
       >
-        <TableOffsets
-            :data="sumOffsets(filter)"
-        >
-        </TableOffsets>
+        <v-row>
+          <Statistics>
+          </Statistics>
+        </v-row>
+        <v-row>
+          <TableOffsets
+              :data="sumOffsets(filter)"
+          >
+          </TableOffsets>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import TableOffsets from "@/components/TemperatureLayout/TableOffsets";
-import YearSelector from "@/components/TemperatureLayout/TableFilters/YearSelector";
+import TableOffsets from "@/components/TemperatureLayout/OffsetHistoryView/TableOffsets";
+import YearSelector from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/YearSelector";
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_CLEAR_OFFSETS, ACTION_GET_OFFSETS, ACTION_GET_YEARS, ACTION_UPDATE_FILTER} from "@/store/temperature";
-import TableFilter from "@/components/TemperatureLayout/TableFilters/TableFilter";
+import TableFilter from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/TableFilter";
+import Statistics from "@/components/TemperatureLayout/OffsetHistoryView/Statistics";
 
 export default {
 name: "OffsetHistoryView",
-  components: {TableFilter, TableOffsets, YearSelector},
+  components: {Statistics, TableFilter, TableOffsets, YearSelector},
   data: () => {
     return {
       filter: {

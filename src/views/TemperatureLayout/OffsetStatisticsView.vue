@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <HeaderStatistics
+    <Statistics
         class="mb-4 elevation-5"
         :offset="offset"
     >
 
-    </HeaderStatistics>
+    </Statistics>
     <v-sheet
       rounded
       class="elevation-5"
@@ -25,10 +25,10 @@
 
 <script>
 
-import HeaderStatistics from "@/components/TemperatureLayout/OffsetStatisticsView/HeaderStatistics";
+import Statistics from "@/components/TemperatureLayout/OffsetHistoryView/Statistics";
 export default {
   name: "OffsetStatisticsView",
-  components: {HeaderStatistics},
+  components: {Statistics},
   props: [
       'data'
   ],
