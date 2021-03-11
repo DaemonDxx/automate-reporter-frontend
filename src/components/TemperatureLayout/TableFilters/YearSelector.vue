@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <div class="year-selector__title">
+    <div class="mb-2 text-center">
       Выберите 2 года из списка
     </div>
     <v-btn-toggle
@@ -8,19 +8,19 @@
       multiple
       @change="update"
     >
-      <v-row>
+      <v-row
+      >
         <v-col
             v-for="year of yearItems"
-            sm="6"
+            xs="6"
+            sm="3"
             md="4"
-            lg="6"
             :key="year"
         >
           <v-btn
               :disabled="isBtnDisabled(year)"
               small
               block
-
               outlined
               color="blue"
           >
@@ -45,8 +45,11 @@ export default {
     }
   },
   methods: {
-    update(value) {
-      this.$emit('update', value);
+    update() {
+      if (this.selectedYears.length === 2) {
+        const years = this.selectedYears.map(index => this.yearItems[index]);
+        this.$emit('update', years)
+      }
     },
     isBtnDisabled(year) {
       if (this.selectedYears.length === 2 && !this.selectedYears.includes(this.yearItems.indexOf(year))) {
@@ -58,7 +61,7 @@ export default {
   },
   computed: {
 
-  }
+  },
 }
 </script>
 

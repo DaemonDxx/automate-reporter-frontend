@@ -32,7 +32,7 @@
 
 <script>
 export default {
-  name: "TTableOffsets",
+  name: "TableOffsets",
   props: [
     'data'
   ],
@@ -45,7 +45,6 @@ export default {
         {text: 'tз, Ц', value: 'tempWinter', sortable: true, align: 'center'},
         {text: 'tл, Ц', value: 'tempSummer', sortable: true, align: 'center'},
         {text: 't фактор, тыс кВтч', value: 'offset', sortable: true, align: 'center'},
-        {text: 'Доля, %', value: 'offsetShare', sortable: true, align: 'center'},
       ]
     }
   },
