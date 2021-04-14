@@ -83,20 +83,15 @@ export default {
       this.$v.$touch();
       if (!this.$v.$error) {
         this.isSendRequest = true;
-        const error = await this[ACTION_LOGIN]({
+        const result = await this[ACTION_LOGIN]({
           username: this.username,
           password: this.password,
         });
-          if (error) {
-            this.$notify({
-              title: 'Ошибка',
-              text: `${error}`,
-              type: 'error',
-            });
-            this.isSendRequest = false;
-          } else {
-            await this.$router.push('/');
-          }
+        console.log(result);
+        if (result)
+          await this.$router.push('/');
+        else
+          this.isSendRequest = false;
       }
     }
   },

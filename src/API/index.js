@@ -1,8 +1,8 @@
-import * as Report from './Report/report'
-import * as FileAPI from './File/File';
-import * as Storage from './Storage/storage'
-import * as Temperature from './Temperature';
-import * as Auth from './Auth';
+import * as Report from './report'
+import * as FileAPI from './file';
+import * as Storage from './storage'
+import * as Temperature from './temperature';
+import * as Auth from './auth';
 
 const API = {
     Report: Report,

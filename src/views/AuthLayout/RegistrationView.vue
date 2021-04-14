@@ -105,33 +105,20 @@ export default {
       this.$v.$touch();
       if (!this.$v.$error) {
         this.isSendRequest = true;
-        const error = await this[ACTION_REGISTRATION_USER]({
-          username: this.username,
-          password: this.password,
-          key: this.key,
+        const user = await this[ACTION_REGISTRATION_USER]({
+            username: this.username,
+            password: this.password,
+            key: this.key,
         });
-        if (error) {
-          this.$notify({
-            title: 'Ошибка',
-            text: `Ошибка регистрации: ${error}`,
-            type: 'error',
-
-          });
-          this.isSendRequest = false;
-        } else {
-          this.$notify({
-            title: 'Регистация',
-            text: 'Поздравляю! Регистрация прошла успешно!',
-            type: 'success',
-          });
+        this.isSendRequest = false;
+        if (user)
           setTimeout(() => {
-            this.$router.push('/auth/login');
+                this.$router.push('/auth/login');
           }, 1500);
-        }
       }
     }
-
   },
+
   computed: {
     usernameError: function () {
       const errors = [];

@@ -6,6 +6,9 @@
 
 <script>
 
+import {mapActions, mapGetters} from "vuex";
+import {ACTION_UPDATE_USER_INFO} from "@/store/auth";
+
 export default {
   name: 'App',
 
@@ -14,7 +17,21 @@ export default {
   },
 
   data: () => ({
-    //
+
   }),
+
+  methods: {
+    ...mapActions([ACTION_UPDATE_USER_INFO])
+  },
+
+  computed: {
+    ...mapGetters(['isAuth'])
+  },
+
+  async beforeMount() {
+    if (this.isAuth) {
+      await this[ACTION_UPDATE_USER_INFO]();
+    }
+  }
 };
 </script>
