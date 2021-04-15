@@ -23,7 +23,7 @@ export const Storage = {
                 return fileInfo;
             } catch (e) {
                 console.error(e);
-                this.$notify({
+                this._vm.$notify({
                     title: 'Ошибка загрузки файла',
                     text: e,
                     type: 'error',
@@ -54,7 +54,7 @@ export const Storage = {
                 }
             } catch (e) {
                 console.error(e);
-                this.$notify({
+                this._vm.$notify({
                     title: 'Ошибка обновления данных о файле',
                     text: e,
                     type: 'error',

@@ -37,12 +37,8 @@ export default {
       this.$emit('saveFile', {
         file
       });
-      this.resetForm();
+      event.srcElement.value = '';
     },
-
-    resetForm() {
-      this.$refs.form.reset();
-    }
   }
 }
 </script>

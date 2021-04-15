@@ -57,10 +57,11 @@ export default {
     async sendFileInServer({file}) {
       this.isParsingFile = true;
       const fileInfo = await this[ACTION_SEND_FILE](file);
-      await this[ACTION_UPDATE_FILE_INFO]({
-        _id: fileInfo._id,
-        type: 'TemperatureCoefficients'
-      })
+      if (fileInfo)
+        await this[ACTION_UPDATE_FILE_INFO]({
+          _id: fileInfo._id,
+          type: 'TemperatureCoefficients'
+        })
       this.isParsingFile = false;
     },
   }
