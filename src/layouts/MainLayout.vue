@@ -38,6 +38,11 @@
 
         </router-view>
     </v-main>
+    <v-fade-transition>
+      <ParsingFileDialog
+          :files="activeParsingFiles"
+          :is-show-dialog="isShowDialog"/>
+    </v-fade-transition>
   </v-app>
 </template>
 
@@ -45,9 +50,13 @@
 
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_LOGOUT} from "@/store/auth";
+import ParsingFileDialog from "@/components/ParsingStatus/ParsingFileDialog";
 
 export default {
   name: "MainLayout",
+  components: {
+    ParsingFileDialog,
+  },
   methods: {
     ...mapActions([ACTION_LOGOUT]),
 
@@ -57,7 +66,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isAuth']),
+    ...mapGetters(['isAuth', 'isShowDialog', 'activeParsingFiles']),
   }
 
 }

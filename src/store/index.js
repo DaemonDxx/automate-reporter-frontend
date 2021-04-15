@@ -6,6 +6,7 @@ import {Weekly} from "@/store/weekly";
 import {Temperature} from "@/store/temperature";
 import {Auth} from "@/store/auth";
 import {VuexPersistence} from "vuex-persist";
+import {Storage} from "@/store/storage";
 
 Vue.use(Vuex)
 
@@ -96,7 +97,8 @@ export default new Vuex.Store({
   modules: {
     Weekly: Weekly,
     Temperature: Temperature,
-    Auth: Auth
+    Auth: Auth,
+    Storage: Storage,
   },
   plugins: [new VuexPersistence({modules: ['Auth']}).plugin]
 })

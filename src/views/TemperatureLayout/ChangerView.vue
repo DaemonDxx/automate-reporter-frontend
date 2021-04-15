@@ -30,8 +30,8 @@
 <script>
 import MyFileUpload from "@/components/MyFileUpload";
 import {mapActions} from "vuex";
-import {ACTION_SEND_FILE} from "@/store/weekly";
 import {ACTION_PARSE_VALUE_FROM_FILE} from "@/store/temperature";
+import {ACTION_SEND_FILE, ACTION_UPDATE_FILE_INFO} from "@/store/storage";
 export default {
   name: "ChangerView",
   components: {MyFileUpload},
@@ -52,38 +52,15 @@ export default {
     }
   },
   methods: {
-    ...mapActions([ACTION_SEND_FILE, ACTION_PARSE_VALUE_FROM_FILE]),
+    ...mapActions([ACTION_SEND_FILE, ACTION_PARSE_VALUE_FROM_FILE, ACTION_UPDATE_FILE_INFO]),
 
     async sendFileInServer({file}) {
       this.isParsingFile = true;
-      const {err, response} = await this[ACTION_SEND_FILE](file);
-      if (err) {
-        this.$notify({
-          title: 'Ошибка загрузки файла',
-          text: err,
-          type: 'error'
-        });
-      } else {
-        this.$notify({
-          title: 'Загрузка файла',
-          text: `Файл успешно сохранен под именем ${response.filename}`,
-          type: 'success'
-        });
-        const result = await this[ACTION_PARSE_VALUE_FROM_FILE](response.filename);
-        if (result.err) {
-          this.$notify({
-            title: 'Ошибка парсинга файла',
-            text: `${result.err}`,
-            type: 'error'
-          });
-        } else {
-          this.$notify({
-            title: 'Файл успешно распарсен',
-            text: `Сохранено значений: ${result.response.saved} \n Обновлено значений: ${result.response.updated} \n`,
-            type: 'success'
-          })
-        }
-      }
+      const fileInfo = await this[ACTION_SEND_FILE](file);
+      await this[ACTION_UPDATE_FILE_INFO]({
+        _id: fileInfo._id,
+        type: 'TemperatureCoefficients'
+      })
       this.isParsingFile = false;
     },
   }

@@ -2,7 +2,6 @@ import {API} from "@/API";
 
 
 const ACTION_GET_FILES_BY_REPORT = "ACTION_GET_FILES_BY_REPORT";
-const ACTION_SEND_FILE = "ACTION_SEND_FILE";
 const ACTION_SET_ACTIVE_STATUS = "ACTION_SET_ACTIVE_STATUS";
 
 
@@ -43,10 +42,6 @@ export const Weekly = {
             commit(MUTATION_SET_FILES, files);
         },
 
-        async [ACTION_SEND_FILE] (ctx, file) {
-            const response = await API.Storage.sendFile(file);
-            return response;
-        },
 
         async[ACTION_SET_ACTIVE_STATUS] ({commit}, fileID) {
           const updatedFile = await API.File.setActiveStatus(fileID);
@@ -68,4 +63,4 @@ export const Weekly = {
 
 }
 
-export {ACTION_SEND_FILE, ACTION_GET_FILES_BY_REPORT, ACTION_SET_ACTIVE_STATUS}
+export {ACTION_GET_FILES_BY_REPORT, ACTION_SET_ACTIVE_STATUS}

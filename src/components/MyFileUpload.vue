@@ -4,13 +4,15 @@
        @dragover.prevent
        @dragenter.prevent
   >
-    <div class="uploader__drop-zone">
-      <div class="uploader__input">
-        <input @change="changeInput" id="inputFile" type="file">
-        <span>Перетащите файл в данную область или </span>
-        <label for="inputFile">выбирете файл</label>
+    <v-form ref="form">
+      <div class="uploader__drop-zone">
+        <div class="uploader__input">
+          <input @change="changeInput" id="inputFile" type="file">
+          <span>Перетащите файл в данную область или </span>
+          <label for="inputFile">выбирете файл</label>
+        </div>
       </div>
-    </div>
+    </v-form>
   </div>
 </template>
 
@@ -34,7 +36,12 @@ export default {
       const file = event.srcElement.files[0];
       this.$emit('saveFile', {
         file
-      })
+      });
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.$refs.form.reset();
     }
   }
 }
