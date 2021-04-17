@@ -4,8 +4,8 @@
        @dragover.prevent
        @dragenter.prevent
   >
-    <v-form ref="form">
-      <div class="uploader__drop-zone">
+    <v-form>
+      <div class="uploader__drop-zone" :style="{'height': `${height}vh`}">
         <div class="uploader__input">
           <input @change="changeInput" id="inputFile" type="file">
           <span>Перетащите файл в данную область или </span>
@@ -19,7 +19,12 @@
 <script>
 export default {
 
-  name: "MyFileUpload",
+  name: "FileUploader",
+  props: {
+    height: {
+      default: 10
+    }
+  },
   data: () => {
     return {
     }
@@ -53,7 +58,7 @@ export default {
     align-items: center
     padding: 10px 10px 10px 10px
     border: 2px dotted grey
-    min-height: 10vh
+
 
   &__input label
     color: grey

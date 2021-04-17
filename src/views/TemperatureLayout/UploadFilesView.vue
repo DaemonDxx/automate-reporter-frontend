@@ -5,15 +5,35 @@
         Обновление данных в базе
       </v-card-title>
     <v-card-text>
-      <span>
-        На данный момент обновление данных возможно только через загрузку файла, соответсвующего
-      </span>
-      <a download href="/Template/Анализ.xlsx">шаблону</a>
-      <my-file-upload
-          v-on:saveFile="sendFileInServer"
-      >
 
-      </my-file-upload>
+      <span>
+        Обновление данных возможно только через загрузку файла, соответсвующего шаблону:
+      </span>
+
+      <ul>
+        <li>
+          <a download href="/Template/Анализ.xlsx">Температура и отпуск в сеть</a>
+        </li>
+        <li>
+          <a download href="">Температурные коэффициента</a>
+        </li>
+      </ul>
+
+      <v-select
+          class="mt-6"
+          v-model="selectedType"
+          :items=typesFile
+          item-value="value"
+          item-text="title"
+
+          outlined
+          label="Выберите тип файла"
+      />
+
+      <file-uploader
+          height="30"
+          v-on:saveFile="sendFileInServer"
+      />
       <v-progress-linear
         color="orange darken-3"
         indeterminate
@@ -21,6 +41,7 @@
         height="6"
         :active="isParsingFile"
       >
+
       </v-progress-linear>
     </v-card-text>
     </v-card>
@@ -28,13 +49,13 @@
 </template>
 
 <script>
-import MyFileUpload from "@/components/MyFileUpload";
+import FileUploader from "@/components/FileUploader";
 import {mapActions} from "vuex";
 import {ACTION_PARSE_VALUE_FROM_FILE} from "@/store/temperature";
 import {ACTION_SEND_FILE, ACTION_UPDATE_FILE_INFO} from "@/store/storage";
 export default {
-  name: "ChangerView",
-  components: {MyFileUpload},
+  name: "UploadFilesView",
+  components: {FileUploader},
   data: () => {
     return {
       departments: [
@@ -48,7 +69,18 @@ export default {
         '"Читаэнерго"',
         'АО "Тываэнерго"',
       ],
-      isParsingFile: false
+      typesFile: [
+          {
+            title: 'Температура и отпуск в сеть',
+            value: 'TemperatureTable'
+          },
+          {
+            title: 'Температурные коэффициенты',
+            value: 'TemperatureCoefficients',
+          }
+      ],
+      isParsingFile: false,
+      selectedType: 'TemperatureTable'
     }
   },
   methods: {
@@ -60,7 +92,7 @@ export default {
       if (fileInfo)
         await this[ACTION_UPDATE_FILE_INFO]({
           _id: fileInfo._id,
-          type: 'TemperatureCoefficients'
+          type: this.selectedType
         })
       this.isParsingFile = false;
     },

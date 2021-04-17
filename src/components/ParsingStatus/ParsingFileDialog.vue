@@ -1,14 +1,15 @@
 <template>
-  <v-card v-if="isShowDialog" ref="test" class="file-info elevation-5">
-    <v-card-title class="primary file-info__title">
-      Статус загруженных файлов {{`(${files.length})`}}
-      <v-spacer/>
-      <v-btn icon @click="isMinimize = !isMinimize">
-        <v-icon color="white">
-          {{isMinimize?'mdi-chevron-up ':'mdi-minus'}}
-        </v-icon>
-      </v-btn>
-    </v-card-title>
+  <v-slide-y-transition>
+    <v-card v-if="isShowDialog" ref="test" class="file-info elevation-5">
+      <v-card-title class="primary file-info__title">
+        Статус загруженных файлов {{`(${files.length})`}}
+        <v-spacer/>
+        <v-btn icon @click="isMinimize = !isMinimize">
+          <v-icon color="white">
+            {{isMinimize?'mdi-chevron-up ':'mdi-minus'}}
+          </v-icon>
+        </v-btn>
+      </v-card-title>
       <v-list
           v-if="!isMinimize"
           style="max-height: 240px"
@@ -20,7 +21,8 @@
           <FileItem v-for="file in files" :key="file._id" :file="file"/>
         </v-slide-x-transition>
       </v-list>
-  </v-card>
+    </v-card>
+  </v-slide-y-transition>
 </template>
 
 <script>

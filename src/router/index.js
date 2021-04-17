@@ -9,7 +9,7 @@ import AuthLayout from "@/layouts/AuthLayout";
 import LoginView from "@/views/AuthLayout/LoginView";
 import OffsetHistoryView from "@/views/TemperatureLayout/OffsetHistoryView";
 import SolverView from "@/views/TemperatureLayout/SolverView";
-import ChangerView from "@/views/TemperatureLayout/ChangerView";
+import UploadFilesView from "@/views/TemperatureLayout/UploadFilesView";
 
 
 Vue.use(VueRouter)
@@ -50,7 +50,7 @@ const routes = [
           {
             name: 'Changer',
             path: 'changer',
-            component: ChangerView
+            component: UploadFilesView
           }
         ]
       },

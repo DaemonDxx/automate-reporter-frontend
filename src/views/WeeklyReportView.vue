@@ -16,11 +16,11 @@
          </my-file-chips>
        </v-col>
      </v-row>
-     <my-file-upload
+     <file-uploader
       v-on:saveFile="sendFile"
      >
 
-     </my-file-upload>
+     </file-uploader>
     </v-card>
 </template>
 
@@ -28,12 +28,12 @@
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_SET_SELECTED_REPORT, ACTION_UPDATE_FIELD_IN_REPORT} from "@/store";
 import {ACTION_SEND_FILE, ACTION_GET_FILES_BY_REPORT, ACTION_SET_ACTIVE_STATUS} from "@/store/weekly";
-import MyFileUpload from "@/components/MyFileUpload";
+import FileUploader from "@/components/FileUploader";
 import MyFileChips from "@/components/MyFileChips";
 
 export default {
   name: "WeeklyReportView",
-  components: {MyFileChips, MyFileUpload},
+  components: {MyFileChips, FileUploader},
   data: () => {
     return {
       currentIdReport: '',
