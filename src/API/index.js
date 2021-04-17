@@ -4,6 +4,7 @@ import * as Storage from './storage_api'
 import * as Temperature from './temperature';
 import * as Auth from './auth_api';
 import * as Value from  './value_api';
+import * as Solver from './solver_api';
 
 const API = {
     Report: Report,
@@ -12,6 +13,7 @@ const API = {
     Temperature: Temperature,
     Auth: Auth,
     Value: Value,
+    Solver: Solver
 }
 
 export {API}

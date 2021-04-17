@@ -7,6 +7,7 @@ import {Temperature} from "@/store/temperature";
 import {Auth} from "@/store/auth";
 import {VuexPersistence} from "vuex-persist";
 import {Storage} from "@/store/storage";
+import {Value} from '@/store/value';
 
 Vue.use(Vuex)
 
@@ -99,6 +100,7 @@ export default new Vuex.Store({
     Temperature: Temperature,
     Auth: Auth,
     Storage: Storage,
+    Value: Value,
   },
   plugins: [new VuexPersistence({modules: ['Auth']}).plugin]
 })
