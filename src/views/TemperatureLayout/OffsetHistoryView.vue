@@ -12,13 +12,13 @@
           elevation="5"
         >
           <year-selector
-              :year-items="accessYears"
-              @update="updateYear"
+              :year-items="availableYear"
+              @update="getOffsetsByYear"
           >
           </year-selector>
           <v-divider></v-divider>
           <TableFilter
-              :access-month-indexes="accessMonth"
+              :access-month-indexes="availableMonth"
               @updateFilter="updateFilter"
           >
           </TableFilter>
@@ -53,6 +53,8 @@ import {mapActions, mapGetters} from "vuex";
 import {ACTION_CLEAR_OFFSETS, ACTION_GET_OFFSETS, ACTION_GET_YEARS, ACTION_UPDATE_FILTER} from "@/store/temperature";
 import TableFilter from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/TableFilter";
 import Statistics from "@/components/TemperatureLayout/OffsetHistoryView/Statistics";
+import {ACTION_GET_VALUE, ACTION_SOLVE_OFFSETS_BY_YEAR} from "@/store/value";
+import {Departments} from "@/departments";
 
 export default {
 name: "OffsetHistoryView",
@@ -64,16 +66,36 @@ name: "OffsetHistoryView",
         departments: []
       },
       isProgressActive: false,
+      availableYear: [],
     }
   },
   methods: {
-    ...mapActions([ACTION_GET_YEARS, ACTION_GET_OFFSETS, ACTION_UPDATE_FILTER, ACTION_CLEAR_OFFSETS]),
+    ...mapActions([
+        ACTION_GET_YEARS,
+        ACTION_GET_OFFSETS,
+        ACTION_SOLVE_OFFSETS_BY_YEAR,
+        ACTION_UPDATE_FILTER,
+        ACTION_CLEAR_OFFSETS,
+        ACTION_GET_VALUE
+    ]),
 
-    async updateYear([year1, year2]) {
+    async getAvailableYear() {
+      const values = await this[ACTION_GET_VALUE]({
+        type: 'Temperature',
+        department: Departments.AE,
+        month: 0,
+      });
+      console.table(values);
+      this.availableYear = Array.from(new Set(values.map(item => item.year)));
+    },
+
+    async getOffsetsByYear([year1, year2]) {
         this.isProgressActive = true;
-        await this[ACTION_GET_OFFSETS]({year1, year2});
+        await this[ACTION_SOLVE_OFFSETS_BY_YEAR]({
+            yearBefore: year1,
+            yearNow: year2
+        });
         this.isProgressActive = false;
-        this.month = this.accessMonth;
     },
 
     updateFilter(filter) {
@@ -83,12 +105,12 @@ name: "OffsetHistoryView",
   },
 
   computed: {
-    ...mapGetters(['accessYears', 'accessMonth', 'sumOffsets']),
+    ...mapGetters(['accessMonth', 'sumOffsets', 'availableMonth']),
 
   },
 
-  async created() {
-    await this[ACTION_GET_YEARS]();
+  async beforeMount() {
+   await this.getAvailableYear();
   },
 
   beforeRouteLeave(to, form, next) {

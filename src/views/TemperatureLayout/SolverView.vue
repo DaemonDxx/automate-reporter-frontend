@@ -80,7 +80,7 @@
 <script>
 import {DepartmentsList} from "@/departments";
 import {mapActions} from "vuex";
-import {ACTION_SOLVE_OFFSET} from "@/store/value";
+import {ACTION_SOLVE_PERSONAL_OFFSET} from "@/store/value";
 
 export default {
   name: "SolverView",
@@ -98,10 +98,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions([ACTION_SOLVE_OFFSET]),
+    ...mapActions([ACTION_SOLVE_PERSONAL_OFFSET]),
 
     async getOffset() {
-      const offset = await this[ACTION_SOLVE_OFFSET](this.query);
+      const offset = await this[ACTION_SOLVE_PERSONAL_OFFSET](this.query);
       const intl = Intl.NumberFormat('ru-RU')
       this.percent = ((offset/this.query.reception)*100).toFixed(2);
       this.offset = intl.format(offset.toFixed(3));
