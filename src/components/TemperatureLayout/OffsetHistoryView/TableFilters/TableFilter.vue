@@ -1,30 +1,15 @@
 <template>
   <v-container>
-      <filter-select
-          field-return="months"
-          :items="months"
-          :accessible-items="accessebleMonths"
-          @update="updateField"
-      >
-        Месяцы для расчета
-      </filter-select>
-      <filter-select
-          field-return="departments"
-          :items="departments"
-          :accessible-items="accessebleDepartments"
-          @update="updateField"
-      >
-        Филиалы
-      </filter-select>
+
   </v-container>
 </template>
 
 <script>
-import FilterSelect from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/FilterSelect";
+
 
 export default {
   name: "TableFilter",
-  components: {FilterSelect},
+  components: {},
   props: [
       'accessMonthIndexes'
   ],

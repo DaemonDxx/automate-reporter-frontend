@@ -11,54 +11,49 @@
           rounded
           elevation="5"
         >
-          <year-selector
-              :year-items="availableYear"
-              @update="getOffsetsByYear"
-          >
-          </year-selector>
           <v-divider></v-divider>
-          <TableFilter
-              :access-month-indexes="availableMonth"
-              @updateFilter="updateFilter"
-          >
-          </TableFilter>
         </v-sheet>
 
       </v-col>
-      <v-col
-          xs="12"
-          sm="12"
-          md="8"
-          lg="9"
-      >
-        <v-row>
-          <Statistics>
-          </Statistics>
-        </v-row>
-        <v-row>
-          <TableOffsets
-              :data="sumOffsets(filter)"
-          >
-          </TableOffsets>
-        </v-row>
+      <v-col md="8">
+        <TableWithFilter>
+          <template v-slot:filter="{ update }">
+            <CustomSelect
+                :items="months"
+                :accessible-items="['Январь']"
+                v-on:changeValue="update($event, 'months')"
+            >
+
+              Выберете месяца для отображения
+            </CustomSelect>
+            <CustomSelect
+                :items="departments"
+                :accessible-items="departments"
+              v-on:update="update('departments')">
+              Выберете филиалы для отображения
+            </CustomSelect>
+          </template>
+
+          <template v-slot:table="{filter}">
+            {{filter}}
+          </template>
+        </TableWithFilter>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import TableOffsets from "@/components/TemperatureLayout/OffsetHistoryView/TableOffsets";
-import YearSelector from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/YearSelector";
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_CLEAR_OFFSETS, ACTION_GET_OFFSETS, ACTION_GET_YEARS, ACTION_UPDATE_FILTER} from "@/store/temperature";
-import TableFilter from "@/components/TemperatureLayout/OffsetHistoryView/TableFilters/TableFilter";
-import Statistics from "@/components/TemperatureLayout/OffsetHistoryView/Statistics";
 import {ACTION_GET_VALUE, ACTION_SOLVE_OFFSETS_BY_YEAR} from "@/store/value";
 import {Departments} from "@/departments";
+import TableWithFilter from "../../components/common/tables/TableWithFilter";
+import CustomSelect from "../../components/common/inputs/CustomSelect";
 
 export default {
 name: "OffsetHistoryView",
-  components: {Statistics, TableFilter, TableOffsets, YearSelector},
+  components: {CustomSelect, TableWithFilter},
   data: () => {
     return {
       filter: {
@@ -67,6 +62,31 @@ name: "OffsetHistoryView",
       },
       isProgressActive: false,
       availableYear: [],
+      months: [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь'
+      ],
+      departments: [
+        '"Алтайэнерго"',
+        '"Бурятэнерго"',
+        '"ГАЭС"',
+        '"Красноярскэнерго"',
+        '"Кузбассэнерго-РЭС"',
+        '"Омскэнерго"',
+        '"Хакасэнерго"',
+        '"Читаэнерго"',
+        'АО "Тываэнерго"',
+      ],
     }
   },
   methods: {
@@ -120,6 +140,6 @@ name: "OffsetHistoryView",
 }
 </script>
 
-<style scoped>
+<style lang="sass" scoped>
 
 </style>

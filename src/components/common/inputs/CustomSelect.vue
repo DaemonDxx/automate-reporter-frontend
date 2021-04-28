@@ -53,12 +53,17 @@
 
 <script>
 export default {
-  name: "FilterSelect",
-  props: [
-      'fieldReturn',
-      'items',
-      'accessibleItems'
-  ],
+  name: "CustomSelect",
+  props: {
+    items: {
+      required: true,
+      type: Array,
+    },
+    accessibleItems: {
+      required: true,
+      type: Array,
+    }
+  },
   data: () => {
     return {
       selectedItems: []
@@ -98,10 +103,7 @@ export default {
     },
 
     updateFilter(value) {
-      this.$emit('update', {
-        field: this.fieldReturn,
-        value
-      })
+      this.$emit('changeValue', value.map(el => el))
     }
 
 

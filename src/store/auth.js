@@ -11,6 +11,10 @@ export const ACTION_GET_USER_INFO = 'ACTION_GET_USER_INFO';
 const MUTATION_UPDATE_USER = 'MUTATION_LOGIN';
 const MUTATION_LOGOUT = 'MUTATION_LOGOUT';
 
+function getHashPassword(password) {
+    return hash.MD5(password);
+}
+
 export const Auth = {
     state: {
         user: {}
@@ -20,7 +24,7 @@ export const Auth = {
             try {
                 const user = await API.Auth.Registration(
                     username,
-                    hash.MD5(password),
+                    getHashPassword(password),
                     key,
                 );
                 this._vm.$notify({
@@ -63,9 +67,9 @@ export const Auth = {
 
         async[ACTION_LOGIN] ({dispatch}, {username, password}) {
             try {
-                const token = await API.Auth.Login(username, password);
+                const token = await API.Auth.Login(username, getHashPassword(password));
                 http.defaults.headers['Authorization'] = `Bearer ${token}`;
-                localStorage.setItem('token',token);
+                localStorage.setItem('token', token);
                 const user = await dispatch(ACTION_UPDATE_USER_INFO);
                 return !!user;
             } catch (e) {
