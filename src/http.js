@@ -20,7 +20,9 @@ http.interceptors.response.use((value) => {
 }, async (err) => {
     const {statusCode, message} = err.response.data;
     switch (statusCode) {
-        case 401: await VueApp.$store.dispatch(ACTION_LOGOUT);
+        case 401:
+            await VueApp.$store.dispatch(ACTION_LOGOUT);
+            await VueApp.$router.push('/auth');
             break;
         default:
             VueApp.$notify({
