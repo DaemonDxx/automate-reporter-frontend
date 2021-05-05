@@ -21,41 +21,23 @@ export const Auth = {
     },
     actions: {
         async [ACTION_REGISTRATION_USER] (ctx, {username, password, key}) {
-            try {
                 const user = await API.Auth.Registration(
                     username,
                     getHashPassword(password),
                     key,
                 );
+                if (!user) return;
                 this._vm.$notify({
                     text: 'Регистрация прошла успешно',
                     type: 'success'
                 })
                 return user;
-            } catch (e) {
-                console.error(e);
-                this._vm.$notify({
-                    title: 'Ошибка регистрации',
-                    text: e,
-                    type: 'error',
-                });
-                return;
-            }
-
         },
 
         async [ACTION_GET_USER_INFO] (ctx, _id = '') {
-            try {
                 const user = await API.Auth.UserInfo(_id);
+                if (!user) return {};
                 return user;
-            } catch (e) {
-                console.error(e);
-                this._vm.$notify({
-                    title: 'Ошибка получения данных о пользователе',
-                    text: e,
-                    type: 'error',
-                });
-            }
         },
 
         async [ACTION_UPDATE_USER_INFO] ({commit, dispatch}) {
@@ -66,21 +48,12 @@ export const Auth = {
         },
 
         async[ACTION_LOGIN] ({dispatch}, {username, password}) {
-            try {
                 const token = await API.Auth.Login(username, getHashPassword(password));
+                if (!token) return;
                 http.defaults.headers['Authorization'] = `Bearer ${token}`;
                 localStorage.setItem('token', token);
                 const user = await dispatch(ACTION_UPDATE_USER_INFO);
                 return !!user;
-            } catch (e) {
-                console.error(e);
-                this._vm.$notify({
-                    title: 'Ошибка входа',
-                    text: e,
-                    type: 'error',
-                });
-                return false;
-            }
         },
 
         [ACTION_LOGOUT] ({commit}) {

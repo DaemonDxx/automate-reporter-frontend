@@ -11,6 +11,7 @@ export async function SendFile(file) {
                 'Content-Type': 'multipart/form-data'
             }
         });
+        if (!response) return null;
         const fileModel = await response.data;
         return fileModel;
 }
@@ -20,12 +21,14 @@ export async function UpdateFileInfo(_id, type) {
         _id,
         type
     });
+    if (!response) return null;
     const file = await response.data;
     return file;
 }
 
 export async function GetFileInfo(_id) {
     const response = await http.get(`${URL_FILE}/${_id}`);
+    if (!response) return null;
     const fileInfo = await response.data;
     return fileInfo;
 }

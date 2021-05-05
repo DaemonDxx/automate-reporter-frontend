@@ -8,7 +8,7 @@ import Notifications from 'vue-notification';
 Vue.config.productionTip = false
 Vue.use(Notifications);
 
-new Vue({
+export const VueApp = new Vue({
   router,
   store,
   vuetify,

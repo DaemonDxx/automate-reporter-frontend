@@ -1,5 +1,6 @@
 import axios from "axios";
-
+import { VueApp } from './main';
+import {ACTION_LOGOUT} from "./store/auth";
 
 //const URL = `http://balans-help.ru:3000/`;
 
@@ -16,9 +17,20 @@ const http = new axios.create({
 
 http.interceptors.response.use((value) => {
     return Promise.resolve(value);
-}, (err) => {
+}, async (err) => {
     const {statusCode, message} = err.response.data;
-    return Promise.reject(new Error(`${statusCode}: ${message}`));
+    switch (statusCode) {
+        case 401: await VueApp.$store.dispatch(ACTION_LOGOUT);
+            break;
+        default:
+            VueApp.$notify({
+                type: 'error',
+                title: 'Запрос не выполнен',
+                text: `Код ошибки ${statusCode} - ${message}`,
+            })
+    }
+    console.error(err);
+    return Promise.resolve(null);
 })
 
 
