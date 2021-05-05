@@ -1,142 +1,83 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col
-          xs="12"
-          sm="12"
-          md="4"
-          lg="3"
-      >
-        <v-sheet
-          rounded
-          elevation="5"
+  <v-row justify="center">
+    <v-card max-width="960" class="mt-3">
+      <v-card-text>
+        <div class="pa-1">
+          <span>
+            Выберите два года для сравнения
+          </span>
+        </div>
+        <year-selector
+            :year-items="accessebleYear"
+            v-on:update="getOffsetsByYear"
+        />
+        <v-divider class="mt-6 mb-3"/>
+        <table-offsets
+            :offsets="offsets"
+        />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer/>
+        <v-btn
+            color="green"
+            class="white--text"
         >
-          <v-divider></v-divider>
-        </v-sheet>
+          <v-icon left>
+            mdi-file-excel
+          </v-icon>
+          Скачать
+        </v-btn>
+      </v-card-actions>
 
-      </v-col>
-      <v-col md="8">
-        <TableWithFilter>
-          <template v-slot:filter="{ update }">
-            <CustomSelect
-                :items="months"
-                :accessible-items="['Январь']"
-                v-on:changeValue="update($event, 'months')"
-            >
-
-              Выберете месяца для отображения
-            </CustomSelect>
-            <CustomSelect
-                :items="departments"
-                :accessible-items="departments"
-              v-on:update="update('departments')">
-              Выберете филиалы для отображения
-            </CustomSelect>
-          </template>
-
-          <template v-slot:table="{filter}">
-            {{filter}}
-          </template>
-        </TableWithFilter>
-      </v-col>
-    </v-row>
-  </v-container>
+    </v-card>
+  </v-row>
 </template>
 
 <script>
-import {mapActions, mapGetters} from "vuex";
-import {ACTION_CLEAR_OFFSETS, ACTION_GET_OFFSETS, ACTION_GET_YEARS, ACTION_UPDATE_FILTER} from "@/store/temperature";
-import {ACTION_GET_VALUE, ACTION_SOLVE_OFFSETS_BY_YEAR} from "@/store/value";
 import {Departments} from "@/departments";
-import TableWithFilter from "../../components/common/tables/TableWithFilter";
-import CustomSelect from "../../components/common/inputs/CustomSelect";
+import {API} from "../../API";
+import YearSelector from "../../components/TemperatureLayout/OffsetHistoryView/YearSelector";
+import TableOffsets from "../../components/TemperatureLayout/OffsetHistoryView/TableOffsets";
 
 export default {
 name: "OffsetHistoryView",
-  components: {CustomSelect, TableWithFilter},
+  components: {TableOffsets, YearSelector},
   data: () => {
     return {
-      filter: {
-        months: [],
-        departments: []
-      },
       isProgressActive: false,
-      availableYear: [],
-      months: [
-        'Январь',
-        'Февраль',
-        'Март',
-        'Апрель',
-        'Май',
-        'Июнь',
-        'Июль',
-        'Август',
-        'Сентябрь',
-        'Октябрь',
-        'Ноябрь',
-        'Декабрь'
-      ],
-      departments: [
-        '"Алтайэнерго"',
-        '"Бурятэнерго"',
-        '"ГАЭС"',
-        '"Красноярскэнерго"',
-        '"Кузбассэнерго-РЭС"',
-        '"Омскэнерго"',
-        '"Хакасэнерго"',
-        '"Читаэнерго"',
-        'АО "Тываэнерго"',
-      ],
+      offsets: [],
+      accessebleYear: [],
     }
   },
   methods: {
-    ...mapActions([
-        ACTION_GET_YEARS,
-        ACTION_GET_OFFSETS,
-        ACTION_SOLVE_OFFSETS_BY_YEAR,
-        ACTION_UPDATE_FILTER,
-        ACTION_CLEAR_OFFSETS,
-        ACTION_GET_VALUE
-    ]),
 
-    async getAvailableYear() {
-      const values = await this[ACTION_GET_VALUE]({
-        type: 'Temperature',
-        department: Departments.AE,
-        month: 0,
+    async getAccessebleYear() {
+      const values = await API.Value.Get({
+            type: 'Temperature',
+            department: Departments.AE,
+            month: 0,
       });
       console.table(values);
-      this.availableYear = Array.from(new Set(values.map(item => item.year)));
+      return Array.from(new Set(values.map(item => item.year))).sort();
     },
 
     async getOffsetsByYear([year1, year2]) {
         this.isProgressActive = true;
-        await this[ACTION_SOLVE_OFFSETS_BY_YEAR]({
-            yearBefore: year1,
-            yearNow: year2
+        const offsets = await API.Solver.byYear({
+          yearBefore: year1,
+          yearNow: year2,
         });
+        this.offsets = offsets;
+        console.table(offsets);
         this.isProgressActive = false;
     },
-
-    updateFilter(filter) {
-      this.filter = filter;
-    }
-
-  },
-
-  computed: {
-    ...mapGetters(['accessMonth', 'sumOffsets', 'availableMonth']),
 
   },
 
   async beforeMount() {
-   await this.getAvailableYear();
+   this.accessebleYear = await this.getAccessebleYear();
   },
 
-  beforeRouteLeave(to, form, next) {
-    this[ACTION_CLEAR_OFFSETS]();
-    next();
-  }
 }
 </script>
 

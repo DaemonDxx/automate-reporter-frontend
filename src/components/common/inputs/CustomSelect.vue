@@ -9,7 +9,7 @@
         dense
         multiple
         outlined
-        @change="updateFilter"
+        @change="handlerChange"
     >
 
       <template v-slot:item="{ item, on, attrs }">
@@ -62,6 +62,10 @@ export default {
     accessibleItems: {
       required: true,
       type: Array,
+    },
+    fieldname: {
+      required: true,
+      type: String
     }
   },
   data: () => {
@@ -75,7 +79,7 @@ export default {
         this.selectedItems = [];
       else
         this.selectedItems = this.accessibleItems.slice();
-      this.updateFilter(this.selectedItems);
+      this.handlerChange(this.selectedItems);
     },
 
     getIconItem(item) {
@@ -102,8 +106,11 @@ export default {
       }
     },
 
-    updateFilter(value) {
-      this.$emit('changeValue', value.map(el => el))
+    handlerChange(value) {
+      this.$emit('changeValue', {
+        field: this.fieldname,
+        value,
+      })
     }
 
 
@@ -123,6 +130,7 @@ export default {
       if (this.likeSomeItems) return 'mdi-minus-box'
       return 'mdi-checkbox-blank-outline'
     },
+
   },
 
   beforeMount() {
@@ -132,7 +140,7 @@ export default {
   watch: {
     accessibleItems: function (value) {
       this.selectedItems = value;
-      this.updateFilter(value);
+      this.handlerChange(value);
     }
   }
 }
