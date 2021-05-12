@@ -17,8 +17,8 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-spacer/>
         <v-btn
+            outlined
             color="green"
             class="white--text"
         >

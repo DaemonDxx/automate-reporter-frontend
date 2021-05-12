@@ -21,6 +21,15 @@ http.interceptors.response.use((value) => {
     const {statusCode, message} = err.response.data;
     switch (statusCode) {
         case 401:
+            if (err.request.responseURL === 'http://localhost:3000/auth/login') {
+                VueApp.$notify({
+                    type: 'error',
+                    title: 'Вход не удался',
+                    text: `Не верный логин или пароль`,
+                });
+                return Promise.reject(new Error('Не верный логин или пароль'));
+            }
+
             await VueApp.$store.dispatch(ACTION_LOGOUT);
             await VueApp.$router.push('/auth');
             break;

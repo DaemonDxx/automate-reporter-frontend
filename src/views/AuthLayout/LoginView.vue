@@ -17,12 +17,12 @@
       </v-btn>
     </v-card-title>
 
+    <v-form
+        @submit.prevent="login"
+    >
     <v-card-text
       class="mt-3"
     >
-      <v-form
-        @submit.prevent="login"
-      >
         <v-text-field
             v-model="username"
             dense
@@ -41,8 +41,6 @@
             placeholder="*********"
             label="Пароль"
         ></v-text-field>
-
-      </v-form>
     </v-card-text>
 
     <v-card-actions
@@ -50,14 +48,14 @@
       <v-spacer></v-spacer>
       <v-btn
         outlined
+        type="submit"
         color="orange darken-3"
-        @click="login"
         :disabled="isSendRequest"
       >
         Войти
       </v-btn>
     </v-card-actions>
-
+    </v-form>
   </v-card>
 </template>
 
