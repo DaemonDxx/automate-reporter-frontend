@@ -14,16 +14,17 @@
             <v-item v-slot="{ active, toggle }"
                     active-class="white--text"
             >
-              <v-card
-                  class="d-flex align-center justify-center elevation-2"
+              <v-btn
                   :color="active? 'primary' : ''"
+                  block
+                  :disabled="isBtnDisabled(year)"
                   @click="toggle"
                   height="32"
               >
                 <div class="text-center pa-4">
                   {{year}}
                 </div>
-              </v-card>
+              </v-btn>
             </v-item>
           </v-col>
         </v-row>
