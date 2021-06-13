@@ -11,32 +11,35 @@
             :year-items="accessebleYear"
             v-on:update="getOffsetsByYear"
         />
-        <v-progress-linear
-            v-if="isProgressActive"
-            color="secondary"
-            class="mt-3"
-            :indeterminate="isProgressActive"
-        />
+        <v-slide-y-transition>
+          <v-progress-linear
+              :style="{opacity: !isProgressActive ? 0 : 1}"
+              color="secondary"
+              class="mt-3"
+              :indeterminate="isProgressActive"
+          />
+        </v-slide-y-transition>
+
 
         <v-divider class="mt-6 mb-3"/>
+
         <table-offsets
             ref="table"
             :offsets="offsets"
         />
+          <v-btn
+              v-if="offsets.length > 0"
+              color="secondary"
+              class="mt-6"
+              block
+              @click="handlerClick"
+          >
+            <v-icon left>
+              mdi-file-excel
+            </v-icon>
+            Скачать в формате EXCEL
+          </v-btn>
       </v-card-text>
-      <v-card-actions>
-        <v-btn
-            outlined
-            color="green"
-            class="white--text"
-            @click="handlerClick"
-        >
-          <v-icon left>
-            mdi-file-excel
-          </v-icon>
-          Скачать
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-container>
 

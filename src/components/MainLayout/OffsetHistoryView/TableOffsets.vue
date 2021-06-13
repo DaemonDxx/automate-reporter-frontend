@@ -36,6 +36,7 @@
               disable-sort
               hide-default-footer
               dense
+              no-data-text="Выберите данные для отображения"
           />
         </v-col>
       </v-row>

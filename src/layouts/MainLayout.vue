@@ -25,7 +25,9 @@
           <navigation-bar
               :items="links"
           />
+        <v-slide-y-reverse-transition mode="out-in">
           <router-view/>
+        </v-slide-y-reverse-transition>
       </v-container>
     </v-main>
     <v-footer>

@@ -40,6 +40,8 @@ export default class Converter {
             ))
         }
 
+        if (result.length === 0) return result;
+
         result.push(this._createConvertationItem(
             this._createAllValueMap(result),
             'Россети Сибирь',
