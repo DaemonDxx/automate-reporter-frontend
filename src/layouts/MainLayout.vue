@@ -1,49 +1,42 @@
 <template>
-  <v-app >
-      <v-app-bar
-          v-if="isAuth"
-          color="blue darken-2"
-          app>
-        <v-app-bar-nav-icon>
-          Б
-        </v-app-bar-nav-icon>
-        <v-btn class="ml-4 mr-4"
-               color="white"
-               outlined
-               @click="$router.push('/report')"
-        >
-          Отчеты
-        </v-btn>
-        <v-btn class="ml-4 mr-4"
-               color="white"
-               outlined
-               @click="$router.push('/offsets')"
-        >
-          Температурный фактор
-        </v-btn>
-        <v-spacer>
+  <div>
+    <v-app-bar
+        color="primary"
+        app
+    >
+      <v-app-bar-nav-icon>
+        Б
+      </v-app-bar-nav-icon>
+      <v-spacer>
 
-        </v-spacer>
-        <v-btn
-            @click="logout"
-        >
-          Выход
-        </v-btn>
+      </v-spacer>
+      <v-btn
+          color="white"
+          outlined
+          @click="logout"
+      >
+        Выход
+      </v-btn>
 
-      </v-app-bar>
-    <notifications
-    />
-    <v-main class="grey">
-        <router-view>
-
-        </router-view>
+    </v-app-bar>
+    <v-main>
+      <v-container>
+          <navigation-bar
+              :items="links"
+          />
+          <router-view/>
+      </v-container>
     </v-main>
+    <v-footer>
+
+    </v-footer>
     <v-fade-transition>
       <ParsingFileDialog
           :files="activeParsingFiles"
           :is-show-dialog="isShowDialog"/>
     </v-fade-transition>
-  </v-app>
+  </div>
+
 </template>
 
 <script>
@@ -51,10 +44,33 @@
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_LOGOUT} from "@/store/auth";
 import ParsingFileDialog from "@/components/ParsingStatus/ParsingFileDialog";
+import NavigationBar from "../components/mainLayout/NavigationBar";
 
 export default {
   name: "MainLayout",
+  data: () => {
+    return {
+      links: [
+        {
+          title: 'База данных',
+          icon: 'mdi-database',
+          path: '/database'
+        },
+        {
+          title: 'Расчет',
+          icon: 'mdi-calculator',
+          path: '/solver'
+        },
+        {
+          title: 'Обновление БД',
+          icon: 'mdi-pencil-plus',
+          path: '/db_changer'
+        }
+      ]
+    }
+  },
   components: {
+    NavigationBar,
     ParsingFileDialog,
   },
   methods: {
@@ -72,6 +88,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
+.app
+  background: black
 </style>

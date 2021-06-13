@@ -1,8 +1,8 @@
 <template>
-  <v-row justify="center">
-    <v-card max-width="960" class="mt-3">
+  <v-container>
+    <v-card class="elevation-0">
       <v-card-text>
-        <div class="pa-1">
+        <div class="pa-1 mb-1">
           <span>
             Выберите два года для сравнения
           </span>
@@ -11,6 +11,13 @@
             :year-items="accessebleYear"
             v-on:update="getOffsetsByYear"
         />
+        <v-progress-linear
+            v-if="isProgressActive"
+            color="secondary"
+            class="mt-3"
+            :indeterminate="isProgressActive"
+        />
+
         <v-divider class="mt-6 mb-3"/>
         <table-offsets
             ref="table"
@@ -30,9 +37,9 @@
           Скачать
         </v-btn>
       </v-card-actions>
-
     </v-card>
-  </v-row>
+  </v-container>
+
 </template>
 
 <script>

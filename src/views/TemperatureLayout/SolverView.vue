@@ -1,79 +1,81 @@
 <template>
-  <v-card>
-    <v-form @submit.prevent="getOffset">
-      <v-card-title>
-        Индивидуальный расчет
-      </v-card-title>
+  <v-container>
+    <v-card class="elevation-0">
+      <v-form @submit.prevent="getOffset">
+        <v-card-title>
+          Индивидуальный расчет
+        </v-card-title>
 
-      <v-card-text>
-        <v-row>
-          <v-col
-              cols="12"
-              md="3"
-          >
-            <v-select
-                v-model="query.department"
-                label="Филиал"
-                outlined
-                :items="departments"
+        <v-card-text>
+          <v-row>
+            <v-col
+                cols="12"
+                md="3"
             >
+              <v-select
+                  v-model="query.department"
+                  label="Филиал"
+                  outlined
+                  :items="departments"
+              >
 
-            </v-select>
-          </v-col>
+              </v-select>
+            </v-col>
 
-          <v-col
-              cols="12"
-              md="3"
-          >
-            <v-text-field
-                v-model="query.reception"
-                outlined
-                type="number"
-                label="ОС прошлого периода"
-                placeholder="163233,342"
-            />
-          </v-col>
-          <v-col
-              cols="12"
-              md="3"
-          >
-            <v-text-field
-                v-model="query.temperatureBefore"
-                outlined
-                type="number"
-                label="t прошлого периода"
-                placeholder="9,0"
-            />
-          </v-col>
+            <v-col
+                cols="12"
+                md="3"
+            >
+              <v-text-field
+                  v-model="query.reception"
+                  outlined
+                  type="number"
+                  label="ОС прошлого периода"
+                  placeholder="163233,342"
+              />
+            </v-col>
+            <v-col
+                cols="12"
+                md="3"
+            >
+              <v-text-field
+                  v-model="query.temperatureBefore"
+                  outlined
+                  type="number"
+                  label="t прошлого периода"
+                  placeholder="9,0"
+              />
+            </v-col>
 
-          <v-col
-              cols="12"
-              md="3"
-          >
-            <v-text-field
-                v-model="query.temperatureNow"
-                outlined
-                type="number"
-                label="t текущего периода"
-                placeholder="13,5"
-            />
-          </v-col>
-        </v-row>
-        <span>Отпуск в сеть изменится на <b>{{offset}} ({{percent}}%)</b></span>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer/>
-        <v-btn
-            class="mr-3 mb-3"
-            outlined
-            color="primary"
-            @click.prevent="getOffset"
-            type="submit">
-          Расчитать
-        </v-btn>
-      </v-card-actions>
-    </v-form>
-  </v-card>
+            <v-col
+                cols="12"
+                md="3"
+            >
+              <v-text-field
+                  v-model="query.temperatureNow"
+                  outlined
+                  type="number"
+                  label="t текущего периода"
+                  placeholder="13,5"
+              />
+            </v-col>
+          </v-row>
+          <span>Отпуск в сеть изменится на <b>{{offset}} ({{percent}}%)</b></span>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer/>
+          <v-btn
+              class="mr-3 mb-3"
+              color="primary"
+              @click.prevent="getOffset"
+              type="submit">
+            Расчитать
+          </v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
+  </v-container>
+
 
 </template>
 

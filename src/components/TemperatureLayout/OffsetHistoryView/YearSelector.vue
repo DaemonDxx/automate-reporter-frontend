@@ -12,11 +12,11 @@
             :key="year"
           >
             <v-item v-slot="{ active, toggle }"
-                    active-class="white--text"
             >
               <v-btn
-                  :color="active? 'primary' : ''"
+                  :color="active? 'secondary' : 'primary'"
                   block
+                  outlined
                   :disabled="isBtnDisabled(year)"
                   @click="toggle"
                   height="32"

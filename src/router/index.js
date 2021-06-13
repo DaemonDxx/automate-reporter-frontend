@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MainLayout from "@/layouts/MainLayout";
-import WeeklyReportView from "@/views/WeeklyReportView";
-import ReportLayout from "@/layouts/ReportLayout";
-import TemperatureLayout from "@/layouts/TemperatureLayout";
 import RegistrationView from "@/views/AuthLayout/RegistrationView";
 import AuthLayout from "@/layouts/AuthLayout";
 import LoginView from "@/views/AuthLayout/LoginView";
@@ -20,26 +17,9 @@ const routes = [
     name: 'MainLayout',
     component: MainLayout,
     children: [
-      {
-        path: '/report',
-        name: 'ReportLayout',
-        component: ReportLayout,
-        children: [
-          {
-            path: 'weekly/:id',
-            name: 'weekly',
-            component: WeeklyReportView,
-          }
-        ]
-      },
-      {
-        path: '/offsets',
-        name: 'TemperatureLayout',
-        component: TemperatureLayout,
-        children: [
           {
             name: 'OffsetsHistory',
-            path: 'history',
+            path: 'database',
             component: OffsetHistoryView
           },
           {
@@ -49,30 +29,28 @@ const routes = [
           },
           {
             name: 'Changer',
-            path: 'changer',
+            path: 'db_changer',
             component: UploadFilesView
           }
-        ]
-      },
-      {
-        path: '/auth',
-        name: 'AuthLayout',
-        component: AuthLayout,
-        children: [
-          {
-            path: 'reg',
-            name: 'Registration',
-            component: RegistrationView
-          },
-          {
-            path: 'login',
-            name: 'Login',
-            component: LoginView
-          }
-        ]
-      }
     ]
   },
+  {
+    path: '/auth',
+    name: 'AuthLayout',
+    component: AuthLayout,
+    children: [
+      {
+        path: 'reg',
+        name: 'Registration',
+        component: RegistrationView
+      },
+      {
+        path: 'login',
+        name: 'Login',
+        component: LoginView
+      }
+    ]
+  }
 
 ]
 
@@ -80,6 +58,7 @@ const router = new VueRouter({
   routes,
   mode: "history"
 });
+
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/auth/reg' || to.path === '/auth/login') {

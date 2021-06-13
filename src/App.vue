@@ -1,7 +1,13 @@
 <template>
+  <v-app
+      :style="{background: $vuetify.theme.themes.light.background}"
+  >
     <router-view>
 
     </router-view>
+    <notifications
+    />
+  </v-app>
 </template>
 
 <script>
