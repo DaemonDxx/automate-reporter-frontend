@@ -45,7 +45,7 @@
 import {mapActions, mapGetters} from "vuex";
 import {ACTION_LOGOUT} from "@/store/auth";
 import ParsingFileDialog from "@/components/ParsingStatus/ParsingFileDialog";
-import NavigationBar from "../components/mainLayout/NavigationBar";
+import NavigationBar from "../components/MainLayout/NavigationBar";
 
 export default {
   name: "MainLayout",

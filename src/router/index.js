@@ -4,11 +4,11 @@ import MainLayout from "@/layouts/MainLayout";
 import RegistrationView from "@/views/AuthLayout/RegistrationView";
 import AuthLayout from "@/layouts/AuthLayout";
 import LoginView from "@/views/AuthLayout/LoginView";
-import OffsetHistoryView from "@/views/TemperatureLayout/OffsetHistoryView";
-import SolverView from "@/views/TemperatureLayout/SolverView";
-import UploadFilesView from "@/views/TemperatureLayout/UploadFilesView";
+import OffsetHistoryView from "@/views/MainLayout/OffsetHistoryView";
+import SolverView from "@/views/MainLayout/SolverView";
+import UploadFilesView from "@/views/MainLayout/UploadFilesView";
 import store from '../store/index';
-import AccessDeniedView from "../views/TemperatureLayout/AccessDeniedView";
+import AccessDeniedView from "../views/MainLayout/AccessDeniedView";
 
 Vue.use(VueRouter)
 

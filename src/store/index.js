@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {API} from '../API/index'
-import {Weekly} from "@/store/weekly";
 import {Temperature} from "@/store/temperature";
 import {Auth} from "@/store/auth";
 import {VuexPersistence} from "vuex-persist";
@@ -94,7 +93,6 @@ export default new Vuex.Store({
     selectedReport: state => state.selectedReport
   },
   modules: {
-    Weekly: Weekly,
     Temperature: Temperature,
     Auth: Auth,
     Storage: Storage,

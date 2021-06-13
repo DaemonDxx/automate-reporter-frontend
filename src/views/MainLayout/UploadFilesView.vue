@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import FileUploader from "@/components/FileUploader";
 import {mapActions} from "vuex";
 import {ACTION_PARSE_VALUE_FROM_FILE} from "@/store/temperature";
 import {ACTION_SEND_FILE, ACTION_UPDATE_FILE_INFO} from "@/store/storage";
 import {DepartmentsList} from "@/departments";
+import FileUploader from "../../components/MainLayout/FileUploader";
 
 export default {
   name: "UploadFilesView",

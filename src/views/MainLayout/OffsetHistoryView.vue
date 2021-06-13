@@ -46,8 +46,8 @@
 import {saveAs} from 'file-saver';
 import {Departments} from "@/departments";
 import {API} from "../../API";
-import YearSelector from "../../components/TemperatureLayout/OffsetHistoryView/YearSelector";
-import TableOffsets from "../../components/TemperatureLayout/OffsetHistoryView/TableOffsets";
+import YearSelector from "../../components/MainLayout/OffsetHistoryView/YearSelector";
+import TableOffsets from "../../components/MainLayout/OffsetHistoryView/TableOffsets";
 import {REPORT_TYPES} from "../../TYPES_REPORT";
 
 export default {
