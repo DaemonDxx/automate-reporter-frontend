@@ -1,3 +1,4 @@
+//TODO сделать нормальную ссылку на лого
 <template>
   <div>
     <v-app-bar
@@ -5,9 +6,12 @@
         dense
         app
     >
-      <v-app-bar-nav-icon>
-        Б
-      </v-app-bar-nav-icon>
+        <span
+            class="header_logo"
+        >
+          Служба балансов
+        </span>
+
       <v-spacer>
 
       </v-spacer>
@@ -30,9 +34,11 @@
         </v-slide-y-reverse-transition>
       </v-container>
     </v-main>
-    <v-footer>
-
-    </v-footer>
+    <v-slide-y-reverse-transition>
+      <my-footer
+          v-if="isShowFooter"
+      />
+    </v-slide-y-reverse-transition>
     <v-fade-transition>
       <ParsingFileDialog
           :files="activeParsingFiles"
@@ -48,6 +54,7 @@ import {mapActions, mapGetters} from "vuex";
 import {ACTION_LOGOUT} from "@/store/auth";
 import ParsingFileDialog from "@/components/ParsingStatus/ParsingFileDialog";
 import NavigationBar from "../components/MainLayout/NavigationBar";
+import MyFooter from "../components/MainLayout/MyFooter";
 
 export default {
   name: "MainLayout",
@@ -76,6 +83,7 @@ export default {
     }
   },
   components: {
+    MyFooter,
     NavigationBar,
     ParsingFileDialog,
   },
@@ -91,6 +99,10 @@ export default {
 
   computed: {
     ...mapGetters(['isAuth', 'isShowDialog', 'activeParsingFiles']),
+
+    isShowFooter: function () {
+      return this.$route.name === 'Introduction';
+    }
   },
 
 }
@@ -99,4 +111,10 @@ export default {
 <style lang="sass" scoped>
 .app
   background: black
+
+.header_logo
+  font-size: 1.25rem
+  color: white
+  text-transform: uppercase
+  font-weight: bold
 </style>

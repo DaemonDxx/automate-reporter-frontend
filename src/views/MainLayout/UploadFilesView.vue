@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card class="elevation-0 rounded-lg">
       <v-card-title>
         Обновление данных в базе
       </v-card-title>

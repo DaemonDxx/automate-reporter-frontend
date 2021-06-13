@@ -1,6 +1,6 @@
 <template>
   <v-list-item-action>
-    <v-scroll-x-transition>
+    <v-scroll-x-transition mode="out-in">
       <v-progress-circular
           v-if="result === 'InProgress'"
           color="orange"

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0">
+    <v-card class="elevation-0 rounded-lg">
       <v-card-text>
         <div class="pa-1 mb-1">
           <span>

@@ -9,9 +9,9 @@
           xs="12"
           sm="8"
       >
-        <router-view>
-
-        </router-view>
+        <v-slide-x-reverse-transition mode="out-in">
+          <router-view/>
+        </v-slide-x-reverse-transition>
       </v-col>
     </v-row>
 </template>

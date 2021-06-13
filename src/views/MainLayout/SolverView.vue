@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0">
+    <v-card class="elevation-0 rounded-lg">
       <v-form @submit.prevent="getOffset">
         <v-card-title>
           Индивидуальный расчет

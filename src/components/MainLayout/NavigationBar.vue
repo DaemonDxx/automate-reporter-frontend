@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0 pl-3 pr-3">
+    <v-card class="elevation-0 pl-3 pr-3 rounded-lg">
       <v-row>
         <v-col
             v-for="item in items"

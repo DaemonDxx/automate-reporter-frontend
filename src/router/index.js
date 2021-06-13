@@ -9,6 +9,7 @@ import SolverView from "@/views/MainLayout/SolverView";
 import UploadFilesView from "@/views/MainLayout/UploadFilesView";
 import store from '../store/index';
 import AccessDeniedView from "../views/MainLayout/AccessDeniedView";
+import IntroductionView from "../views/MainLayout/IntroductionView";
 
 Vue.use(VueRouter)
 
@@ -18,6 +19,11 @@ const routes = [
     name: 'MainLayout',
     component: MainLayout,
     children: [
+      {
+        name: 'Introduction',
+        path: '',
+        component: IntroductionView
+      },
           {
             name: 'OffsetsHistory',
             path: 'database',
@@ -36,11 +42,11 @@ const routes = [
             component: UploadFilesView,
             meta: {accessList: ['ADMIN', 'CREATOR']},
           },
-      {
-        name: 'AccessDenied',
-        path: 'denied',
-        component: AccessDeniedView
-      }
+          {
+            name: 'AccessDenied',
+            path: 'denied',
+            component: AccessDeniedView
+          },
     ]
   },
   {

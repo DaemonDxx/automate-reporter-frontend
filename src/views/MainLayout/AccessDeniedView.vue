@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0 flex text-center">
+    <v-card class="elevation-0 rounded-lg flex text-center">
       Доступ на запращиваемый ресурс запрещен
     </v-card>
   </v-container>
