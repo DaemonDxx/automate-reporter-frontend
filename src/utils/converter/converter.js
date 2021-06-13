@@ -40,8 +40,6 @@ export default class Converter {
             ))
         }
 
-        console.log(this._createAllValueMap(result));
-
         result.push(this._createConvertationItem(
             this._createAllValueMap(result),
             'Россети Сибирь',
@@ -50,6 +48,16 @@ export default class Converter {
         this._cache.set(filter, result);
 
         return result;
+    }
+
+    //TODO переписать на every/some
+    _getFilteredList(arr, filter) {
+        return arr.filter((item) => {
+            for (const field in filter) {
+                if (!filter[field].includes(item[field])) return false;
+            }
+            return true;
+        })
     }
 
     _createAllValueMap(filteredOffsets) {
@@ -62,14 +70,6 @@ export default class Converter {
         return map;
     }
 
-    _getFilteredList(arr, filter) {
-        return arr.filter((item) => {
-            for (const field in filter) {
-                if (!filter[field].includes(item[field])) return false;
-            }
-            return true;
-        })
-    }
 
     _createConvertationItem(mapValues, mainFieldValue) {
         let convertedItem = {};
@@ -80,7 +80,7 @@ export default class Converter {
                 writable: true,
                 enumerable: true,
                 configurable: true,
-                value: rule.convertation(mapValues.get(field)).toFixed(1)
+                value: rule.convertation(mapValues.get(field))
             });
         }
         convertedItem[this._mainField] = mainFieldValue;
