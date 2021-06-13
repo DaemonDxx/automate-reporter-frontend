@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {API} from '../API/index'
-import {getArrayOfTypesReport} from "@/TYPES_REPORT";
 import {Weekly} from "@/store/weekly";
 import {Temperature} from "@/store/temperature";
 import {Auth} from "@/store/auth";
@@ -29,7 +28,6 @@ export default new Vuex.Store({
     reports: [],
     selectedReport: undefined,
     filterQuery: {
-      type: getArrayOfTypesReport(),
       year: new Date().getFullYear(),
       month: new Date().getMonth(),
       limit: 5,

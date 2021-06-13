@@ -13,6 +13,7 @@
         />
         <v-divider class="mt-6 mb-3"/>
         <table-offsets
+            ref="table"
             :offsets="offsets"
         />
       </v-card-text>
@@ -21,6 +22,7 @@
             outlined
             color="green"
             class="white--text"
+            @click="handlerClick"
         >
           <v-icon left>
             mdi-file-excel
@@ -34,10 +36,12 @@
 </template>
 
 <script>
+import {saveAs} from 'file-saver';
 import {Departments} from "@/departments";
 import {API} from "../../API";
 import YearSelector from "../../components/TemperatureLayout/OffsetHistoryView/YearSelector";
 import TableOffsets from "../../components/TemperatureLayout/OffsetHistoryView/TableOffsets";
+import {REPORT_TYPES} from "../../TYPES_REPORT";
 
 export default {
 name: "OffsetHistoryView",
@@ -57,7 +61,6 @@ name: "OffsetHistoryView",
             department: Departments.AE,
             month: 0,
       });
-      console.table(values);
       return Array.from(new Set(values.map(item => item.year))).sort();
     },
 
@@ -68,9 +71,17 @@ name: "OffsetHistoryView",
           yearNow: year2,
         });
         this.offsets = offsets;
-        console.table(offsets);
         this.isProgressActive = false;
     },
+
+    async handlerClick() {
+      const arrayOfFile = await API.Report.Create({
+        type: REPORT_TYPES.Offsets,
+        payload: this.$refs.table.dataTable,
+      });
+      saveAs(new Blob(new Uint8Array(arrayOfFile),{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}));
+      console.log(arrayOfFile);
+    }
 
   },
 

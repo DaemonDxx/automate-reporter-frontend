@@ -138,12 +138,11 @@ export default {
       },
       mainField: 'department'
     });
-  },
-
-  mounted() {
     this.converter.setValues(this.offsets);
     this.updateDataTable();
-  }
+  },
+
+
 }
 </script>
 
