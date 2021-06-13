@@ -3,6 +3,7 @@
         <v-col
             sm="12"
             md="6"
+            cols="12"
         >
           <custom-select
               :items="months"
@@ -16,6 +17,7 @@
         <v-col
             sm="12"
             md="6"
+            cols="12"
         >
           <custom-select
               :items="departments"

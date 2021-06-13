@@ -32,6 +32,7 @@
                   type="number"
                   label="ОС прошлого периода"
                   placeholder="163233,342"
+                  :error-messages="receptionErrors"
               />
             </v-col>
             <v-col
@@ -44,6 +45,7 @@
                   type="number"
                   label="t прошлого периода"
                   placeholder="9,0"
+                  :error-messages="temperatureBeforeErrors"
               />
             </v-col>
 
@@ -57,6 +59,7 @@
                   type="number"
                   label="t текущего периода"
                   placeholder="13,5"
+                  :error-messages="temperatureNowErrors"
               />
             </v-col>
           </v-row>
@@ -83,6 +86,8 @@
 import {DepartmentsList} from "@/departments";
 import {mapActions} from "vuex";
 import {ACTION_SOLVE_PERSONAL_OFFSET} from "@/store/value";
+import {validationMixin} from "vuelidate";
+import {maxValue, minValue, required} from "vuelidate/lib/validators";
 
 export default {
   name: "SolverView",
@@ -90,10 +95,10 @@ export default {
     return {
       departments: DepartmentsList,
       query: {
-        reception: 0,
-        temperatureBefore: 0,
-        temperatureNow: 0,
-        department: ''
+        reception: '',
+        temperatureBefore: '',
+        temperatureNow: '',
+        department: '"Алтайэнерго"'
       },
       offset: 0,
       percent: 0,
@@ -103,6 +108,8 @@ export default {
     ...mapActions([ACTION_SOLVE_PERSONAL_OFFSET]),
 
     async getOffset() {
+      this.$v.$touch();
+      if (this.$v.$error) return;
       const offset = await this[ACTION_SOLVE_PERSONAL_OFFSET](this.query);
       const intl = Intl.NumberFormat('ru-RU')
       this.percent = ((offset/this.query.reception)*100).toFixed(2);
@@ -111,7 +118,56 @@ export default {
   },
 
   computed: {
-  }
+    receptionErrors: function () {
+      const errors = [];
+      if (this.$v.query.reception.$dirty && this.$v.query.reception.$error) {
+        if (!this.$v.query.reception.required) errors.push('ОС не должен быть пустым');
+        if (!this.$v.query.reception.minValue) errors.push('ОС должен быть болльше 0');
+      }
+      return errors;
+    },
+    temperatureBeforeErrors: function () {
+      const errors = [];
+      if (this.$v.query.temperatureBefore.$dirty && this.$v.query.temperatureBefore.$error) {
+        if (!this.$v.query.temperatureBefore.required) errors.push('Это поле не должно быть пустым');
+        if (!this.$v.query.temperatureBefore.minValue) errors.push('ОС должен быть больше -50');
+        if (!this.$v.query.temperatureBefore.maxValue) errors.push('ОС должен быть меньше 50');
+      }
+      return errors;
+    },
+    temperatureNowErrors: function () {
+      const errors = [];
+      if (this.$v.query.temperatureNow.$dirty && this.$v.query.temperatureNow.$error) {
+        if (!this.$v.query.temperatureNow.required) errors.push('Это поле не должно быть пустым');
+        if (!this.$v.query.temperatureNow.minValue) errors.push('ОС должен быть больше -50');
+        if (!this.$v.query.temperatureNow.maxValue) errors.push('ОС должен быть меньше 50');
+      }
+      return errors;
+    },
+  },
+
+  validations: {
+    query: {
+      reception: {
+        required,
+        minValue: minValue(1),
+      },
+      temperatureBefore: {
+        required,
+        minValue: minValue(-50),
+        maxValue: maxValue(50),
+      },
+      temperatureNow: {
+        required,
+        minValue: minValue(-50),
+        maxValue: maxValue(50),
+      }
+    }
+  },
+
+  mixins: [
+      validationMixin
+  ]
 }
 </script>
 

@@ -114,7 +114,7 @@ export default {
         if (user)
           setTimeout(() => {
                 this.$router.push('/auth/login');
-          }, 1500);
+          }, 1000);
       }
     }
   },

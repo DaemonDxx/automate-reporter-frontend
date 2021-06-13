@@ -4,9 +4,11 @@ import store from './store'
 import router from './router'
 import vuetify from './plugins/vuetify';
 import Notifications from 'vue-notification';
+import Vuelidate from "vuelidate";
 
 Vue.config.productionTip = false
 Vue.use(Notifications);
+Vue.use(Vuelidate);
 
 export const VueApp = new Vue({
   router,
