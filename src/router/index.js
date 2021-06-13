@@ -7,7 +7,8 @@ import LoginView from "@/views/AuthLayout/LoginView";
 import OffsetHistoryView from "@/views/TemperatureLayout/OffsetHistoryView";
 import SolverView from "@/views/TemperatureLayout/SolverView";
 import UploadFilesView from "@/views/TemperatureLayout/UploadFilesView";
-
+import store from '../store/index';
+import AccessDeniedView from "../views/TemperatureLayout/AccessDeniedView";
 
 Vue.use(VueRouter)
 
@@ -20,18 +21,26 @@ const routes = [
           {
             name: 'OffsetsHistory',
             path: 'database',
-            component: OffsetHistoryView
+            component: OffsetHistoryView,
+            meta: {accessList: ['ALL']}
           },
           {
             name: 'Solver',
             path: 'solver',
-            component: SolverView
+            component: SolverView,
+            meta: {accessList: ['ALL']}
           },
           {
             name: 'Changer',
             path: 'db_changer',
-            component: UploadFilesView
-          }
+            component: UploadFilesView,
+            meta: {accessList: ['ADMIN', 'CREATOR']},
+          },
+      {
+        name: 'AccessDenied',
+        path: 'denied',
+        component: AccessDeniedView
+      }
     ]
   },
   {
@@ -59,14 +68,18 @@ const router = new VueRouter({
   mode: "history"
 });
 
+const isAuth = () => !!localStorage.getItem('token');
+const hasNotAccess = (accessList) => !(accessList.includes('ALL') || accessList.includes(store.state.Auth.user.role));
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/auth/reg' || to.path === '/auth/login') {
-    if (localStorage.getItem('token'))
+    if (isAuth())
       next('/')
   } else {
-    if (!localStorage.getItem('token'))
+    if (!isAuth())
       next('/auth/login')
+    if (to.meta.accessList && hasNotAccess(to.meta.accessList))
+      next('/denied');
   }
   next();
 })

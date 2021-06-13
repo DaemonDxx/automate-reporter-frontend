@@ -2,6 +2,7 @@
   <div>
     <v-app-bar
         color="primary"
+        dense
         app
     >
       <v-app-bar-nav-icon>
@@ -12,7 +13,7 @@
       </v-spacer>
       <v-btn
           color="white"
-          outlined
+          text
           @click="logout"
       >
         Выход
@@ -54,17 +55,20 @@ export default {
         {
           title: 'База данных',
           icon: 'mdi-database',
-          path: '/database'
+          path: '/database',
+          accessList: ['ALL']
         },
         {
           title: 'Расчет',
           icon: 'mdi-calculator',
-          path: '/solver'
+          path: '/solver',
+          accessList: ['ALL']
         },
         {
           title: 'Обновление БД',
           icon: 'mdi-pencil-plus',
-          path: '/db_changer'
+          path: '/db_changer',
+          accessList: ['CREATOR', 'ADMIN']
         }
       ]
     }
@@ -73,6 +77,7 @@ export default {
     NavigationBar,
     ParsingFileDialog,
   },
+
   methods: {
     ...mapActions([ACTION_LOGOUT]),
 
@@ -81,9 +86,10 @@ export default {
       this.$router.push('/auth/login');
     }
   },
+
   computed: {
     ...mapGetters(['isAuth', 'isShowDialog', 'activeParsingFiles']),
-  }
+  },
 
 }
 </script>

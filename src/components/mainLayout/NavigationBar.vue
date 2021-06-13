@@ -14,6 +14,7 @@
               height="48"
               color="primary"
               :to="item.path"
+              :disabled="isAccessDenied(item.accessList)"
           >
             <v-icon left>
               {{item.icon}}
@@ -29,6 +30,8 @@
 </template>
 
 <script>
+
+import {mapGetters} from "vuex";
 
 export default {
   name: "NavigationBar",
@@ -57,6 +60,16 @@ export default {
       }
     }
   },
+
+  methods: {
+    isAccessDenied(accessList) {
+      return !(accessList.includes('ALL') || accessList.includes(this.myRole));
+    }
+  },
+
+  computed: {
+    ...mapGetters(['myRole'])
+  }
 }
 </script>
 

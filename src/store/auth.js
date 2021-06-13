@@ -81,7 +81,8 @@ export const Auth = {
 
     },
     getters: {
-        isAuth: state => !!state.user?.username
+        isAuth: state => !!state.user?.username,
+        myRole: state => state.user.role
     }
 }
 
