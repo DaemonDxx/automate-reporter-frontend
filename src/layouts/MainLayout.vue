@@ -6,15 +6,18 @@
         dense
         app
     >
-        <span
-            class="header_logo"
-        >
-          Служба балансов
-        </span>
+      <v-app-bar-title>
+        <router-link class="text--white" to="/">
+          <span
+              class="header_logo"
+          >
+             Служба балансов
+          </span>
+        </router-link>
+      </v-app-bar-title>
 
-      <v-spacer>
+      <v-spacer/>
 
-      </v-spacer>
       <v-btn
           color="white"
           text
@@ -22,8 +25,8 @@
       >
         Выход
       </v-btn>
-
     </v-app-bar>
+
     <v-main>
       <v-container>
           <navigation-bar

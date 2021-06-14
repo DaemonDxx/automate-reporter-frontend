@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0 rounded-lg mb-3">
+    <v-card class="elevation-0 rounded-lg mt-4 mb-3">
       <v-card-title>
         О сайте
       </v-card-title>
@@ -24,6 +24,41 @@
           </v-card-text>
         </v-card>
     </div>
+
+    <v-card class="elevation-0 rounded-lg mt-3">
+      <v-card-text class="text-center">
+          <div>
+            Более подробно о том, как выполняется расчет и как рассчитать температурный фактор без данного ресурса, а так же, необходимая вспомогательная информация
+            прикреплена по ссылкам ниже
+          </div>
+        <div class="mt-2">
+          <v-btn
+            icon
+            link
+            href="/metodic.docx"
+            color="primary"
+            large
+            target="download"
+          >
+            <v-icon>
+              mdi-file-word-outline
+            </v-icon>
+          </v-btn>
+          <v-btn
+              icon
+              link
+              href="/coeff.pdf"
+              color="primary"
+              large
+              target="download"
+          >
+            <v-icon>
+              mdi-pdf-box
+            </v-icon>
+          </v-btn>
+        </div>
+      </v-card-text>
+    </v-card>
 
   </v-container>
 </template>

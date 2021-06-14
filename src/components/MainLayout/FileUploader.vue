@@ -52,13 +52,13 @@ export default {
 
 .uploader
   padding: 10px 10px 10px 10px
+
   &__drop-zone
     display: flex
     justify-content: center
     align-items: center
     padding: 10px 10px 10px 10px
-    border: 2px dotted grey
-
+    border: 2px dotted #f57c00
 
   &__input label
     color: grey
