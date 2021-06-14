@@ -32,7 +32,7 @@
         <v-col cols="12">
           <v-data-table
               :headers="tableOption.headers"
-              :items="dataTable"
+              :items="formatDataTable"
               disable-filtering
               disable-pagination
               disable-sort
@@ -50,6 +50,7 @@ import {DepartmentsList} from "../../../departments";
 import Converter from '../../../utils/converter/converter';
 import {sum, average} from "../../../utils/converter/convertationFunctions";
 import CustomSelect from "../../common/inputs/CustomSelect";
+import {Formater} from "../../../utils/formater";
 
 export default {
   name: "TableOffsets",
@@ -72,7 +73,8 @@ export default {
           {text: 't фактор', align: 'center', value: 'offset', sort: false},
         ]
       },
-      dataTable: []
+      dataTable: [],
+      formatDataTable: [],
     }
   },
   props: {
@@ -93,6 +95,7 @@ export default {
 
     updateDataTable() {
       this.dataTable = this.converter.getConvertedData(this.filter);
+      this.formatDataTable = this.formater.format(this.dataTable);
     },
   },
   computed: {
@@ -142,6 +145,7 @@ export default {
       mainField: 'department'
     });
     this.converter.setValues(this.offsets);
+    this.formater = new Formater(Intl.NumberFormat('ru-RU'));
     this.updateDataTable();
   },
 

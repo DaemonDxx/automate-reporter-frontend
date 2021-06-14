@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card class="elevation-0 rounded-lg mt-4 mb-3">
+    <v-card class="elevation-0 rounded-lg mb-3">
       <v-card-title>
         О сайте
       </v-card-title>

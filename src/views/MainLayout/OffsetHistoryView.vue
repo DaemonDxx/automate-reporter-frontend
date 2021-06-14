@@ -32,6 +32,7 @@
               color="secondary"
               class="mt-6"
               block
+              link
               @click="handlerClick"
           >
             <v-icon left>
@@ -51,7 +52,6 @@ import {Departments} from "@/departments";
 import {API} from "../../API";
 import YearSelector from "../../components/MainLayout/OffsetHistoryView/YearSelector";
 import TableOffsets from "../../components/MainLayout/OffsetHistoryView/TableOffsets";
-import {REPORT_TYPES} from "../../TYPES_REPORT";
 
 export default {
 name: "OffsetHistoryView",
@@ -85,12 +85,12 @@ name: "OffsetHistoryView",
     },
 
     async handlerClick() {
-      const arrayOfFile = await API.Report.Create({
-        type: REPORT_TYPES.Offsets,
-        payload: this.$refs.table.dataTable,
+      const filename = await API.Report.Create({
+          formatOffset: this.$refs.table.dataTable,
+          offsets: this.offsets,
       });
-      saveAs(new Blob(new Uint8Array(arrayOfFile),{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}));
-      console.log(arrayOfFile);
+      const arrayOfFile = await API.Storage.DownloadFile(filename);
+      saveAs(new Blob([arrayOfFile],{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}));
     }
 
   },
