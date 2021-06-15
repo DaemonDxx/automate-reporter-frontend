@@ -27,6 +27,11 @@ http.interceptors.response.use((value) => {
                     title: 'Вход не удался',
                     text: `Не верный логин или пароль`,
                 });
+                VueApp.$notify({
+                    type: 'error',
+                    title: 'Вход не выполнен',
+                    text: `Не верный логин или пароль`,
+                })
                 return Promise.reject(new Error('Не верный логин или пароль'));
             }
 

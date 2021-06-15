@@ -15,6 +15,12 @@ function getHashPassword(password) {
     return hash.MD5(password);
 }
 
+const transformUsername = (username) => {
+    return username
+        .toLowerCase()
+        .trim()
+}
+
 export const Auth = {
     state: {
         user: {}
@@ -23,10 +29,11 @@ export const Auth = {
         async [ACTION_REGISTRATION_USER] (ctx, {username, password, key}) {
             try {
                 const user = await API.Auth.Registration(
-                    username,
+                    transformUsername(username),
                     getHashPassword(password),
                     key,
                 );
+                if (!user) return;
                 this._vm.$notify({
                     text: 'Регистрация прошла успешно',
                     type: 'success'
@@ -53,7 +60,7 @@ export const Auth = {
 
         async[ACTION_LOGIN] ({dispatch}, {username, password}) {
             try {
-                const token = await API.Auth.Login(username, getHashPassword(password));
+                const token = await API.Auth.Login(transformUsername(username), getHashPassword(password));
                 http.defaults.headers['Authorization'] = `Bearer ${token}`;
                 localStorage.setItem('token', token);
                 const user = await dispatch(ACTION_UPDATE_USER_INFO);
