@@ -63,7 +63,7 @@
               />
             </v-col>
           </v-row>
-          <span>Отпуск в сеть изменится на <b>{{offset}} ({{percent}}%)</b></span>
+          <span>Отпуск в сеть {{dynamicWord}} на <b>{{offset}} ({{percent}}%)</b></span>
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
@@ -130,8 +130,8 @@ export default {
       const errors = [];
       if (this.$v.query.temperatureBefore.$dirty && this.$v.query.temperatureBefore.$error) {
         if (!this.$v.query.temperatureBefore.required) errors.push('Это поле не должно быть пустым');
-        if (!this.$v.query.temperatureBefore.minValue) errors.push('ОС должен быть больше -50');
-        if (!this.$v.query.temperatureBefore.maxValue) errors.push('ОС должен быть меньше 50');
+        if (!this.$v.query.temperatureBefore.minValue) errors.push('ОС должен быть больше -40');
+        if (!this.$v.query.temperatureBefore.maxValue) errors.push('ОС должен быть меньше 40');
       }
       return errors;
     },
@@ -139,11 +139,15 @@ export default {
       const errors = [];
       if (this.$v.query.temperatureNow.$dirty && this.$v.query.temperatureNow.$error) {
         if (!this.$v.query.temperatureNow.required) errors.push('Это поле не должно быть пустым');
-        if (!this.$v.query.temperatureNow.minValue) errors.push('ОС должен быть больше -50');
-        if (!this.$v.query.temperatureNow.maxValue) errors.push('ОС должен быть меньше 50');
+        if (!this.$v.query.temperatureNow.minValue) errors.push('ОС должен быть больше -40');
+        if (!this.$v.query.temperatureNow.maxValue) errors.push('ОС должен быть меньше 40');
       }
       return errors;
     },
+
+    dynamicWord: function () {
+      return parseFloat(this.offset.toString().replace(',', '.'))*100 > 0 ? 'вырастет' : 'снизится';
+    }
   },
 
   validations: {
@@ -154,13 +158,13 @@ export default {
       },
       temperatureBefore: {
         required,
-        minValue: minValue(-50),
-        maxValue: maxValue(50),
+        minValue: minValue(-40),
+        maxValue: maxValue(40),
       },
       temperatureNow: {
         required,
-        minValue: minValue(-50),
-        maxValue: maxValue(50),
+        minValue: minValue(-40),
+        maxValue: maxValue(40),
       }
     }
   },
