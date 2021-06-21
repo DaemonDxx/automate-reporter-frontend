@@ -33,6 +33,7 @@
               class="mt-6"
               block
               link
+              :loading="isDownloadFile"
               @click="handlerClick"
           >
             <v-icon left>
@@ -47,11 +48,12 @@
 </template>
 
 <script>
-import {saveAs} from 'file-saver';
-import {Departments} from "@/departments";
-import {API} from "../../API";
 import YearSelector from "../../components/MainLayout/OffsetHistoryView/YearSelector";
 import TableOffsets from "../../components/MainLayout/OffsetHistoryView/TableOffsets";
+import {mapActions} from "vuex";
+import {ACTION_DOWNLOAD_FILE} from "../../store/storageStore";
+import {ACTION_CREATE_REPORT} from "../../store/reportStore";
+import {ACTION_GET_ACCESSES_YEAR, ACTION_OFFSETS_BY_YEAR} from "../../store/solverStore";
 
 export default {
 name: "OffsetHistoryView",
@@ -59,44 +61,40 @@ name: "OffsetHistoryView",
   data: () => {
     return {
       isProgressActive: false,
+      isDownloadFile: false,
       offsets: [],
       accessebleYear: [],
     }
   },
   methods: {
 
-    async getAccessebleYear() {
-      const values = await API.Value.Get({
-            type: 'Temperature',
-            department: Departments.AE,
-            month: 0,
-      });
-      return Array.from(new Set(values.map(item => item.year))).sort();
-    },
+      ...mapActions([ACTION_DOWNLOAD_FILE, ACTION_CREATE_REPORT, ACTION_OFFSETS_BY_YEAR, ACTION_GET_ACCESSES_YEAR]),
 
     async getOffsetsByYear([year1, year2]) {
         this.isProgressActive = true;
-        const offsets = await API.Solver.byYear({
+        this.offsets = await this[ACTION_OFFSETS_BY_YEAR]({
           yearBefore: year1,
           yearNow: year2,
         });
-        this.offsets = offsets;
         this.isProgressActive = false;
     },
 
     async handlerClick() {
-      const filename = await API.Report.Create({
+        this.isDownloadFile = true;
+        const filename = await this[ACTION_CREATE_REPORT]({
           formatOffset: this.$refs.table.dataTable,
           offsets: this.offsets,
-      });
-      const arrayOfFile = await API.Storage.DownloadFile(filename);
-      saveAs(new Blob([arrayOfFile],{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}));
+        });
+        if (filename) {
+          await this[ACTION_DOWNLOAD_FILE](filename);
+        }
+        this.isDownloadFile = false;
     }
 
   },
 
   async beforeMount() {
-   this.accessebleYear = await this.getAccessebleYear();
+   this.accessebleYear = await this[ACTION_GET_ACCESSES_YEAR]();
   },
 
 }

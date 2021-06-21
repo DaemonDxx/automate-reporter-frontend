@@ -1,6 +1,7 @@
 import {API} from "@/API";
 import {http} from "@/http";
 import * as hash from 'object-hash';
+import { VueApp } from '../main';
 
 export const ACTION_REGISTRATION_USER = 'ACTION_REGISTRATION_USER';
 export const ACTION_LOGIN = 'ACTION_LOGIN';
@@ -21,7 +22,7 @@ const transformUsername = (username) => {
         .trim()
 }
 
-export const Auth = {
+export const AuthStore = {
     state: {
         user: {}
     },
@@ -33,29 +34,39 @@ export const Auth = {
                     getHashPassword(password),
                     key,
                 );
-                if (!user) return;
                 this._vm.$notify({
                     text: 'Регистрация прошла успешно',
                     type: 'success'
                 })
                 return user;
             } catch(e) {
-                console.error(e);
-                return;
+                VueApp.handleError(e);
+                return null;
             }
         },
 
         async [ACTION_GET_USER_INFO] (ctx, _id = '') {
+            try {
                 const user = await API.Auth.UserInfo(_id);
-                if (!user) return {};
                 return user;
+            } catch (e) {
+                VueApp.handleError(e);
+                return null;
+            }
+
         },
 
         async [ACTION_UPDATE_USER_INFO] ({commit, dispatch}) {
+            try {
                 const user = await dispatch(ACTION_GET_USER_INFO);
-                if (!user) dispatch(ACTION_LOGOUT);
                 commit(MUTATION_UPDATE_USER, user);
                 return user;
+            } catch (e) {
+                VueApp.handleError(e);
+                dispatch(ACTION_LOGOUT);
+                return null;
+            }
+
         },
 
         async[ACTION_LOGIN] ({dispatch}, {username, password}) {
@@ -63,10 +74,11 @@ export const Auth = {
                 const token = await API.Auth.Login(transformUsername(username), getHashPassword(password));
                 http.defaults.headers['Authorization'] = `Bearer ${token}`;
                 localStorage.setItem('token', token);
-                const user = await dispatch(ACTION_UPDATE_USER_INFO);
-                return !!user;
+                await dispatch(ACTION_UPDATE_USER_INFO);
+                return true;
             } catch (e) {
-                console.log(e);
+                VueApp.handleError(e);
+                return false;
             }
 
         },

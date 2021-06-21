@@ -50,8 +50,7 @@
 
 <script>
 import {mapActions} from "vuex";
-import {ACTION_PARSE_VALUE_FROM_FILE} from "@/store/temperature";
-import {ACTION_SEND_FILE, ACTION_UPDATE_FILE_INFO} from "@/store/storage";
+import {ACTION_SEND_FILE} from "@/store/storageStore";
 import {DepartmentsList} from "@/departments";
 import FileUploader from "../../components/MainLayout/FileUploader";
 
@@ -76,16 +75,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions([ACTION_SEND_FILE, ACTION_PARSE_VALUE_FROM_FILE, ACTION_UPDATE_FILE_INFO]),
+    ...mapActions([ACTION_SEND_FILE]),
 
     async sendFileInServer({file}) {
       this.isParsingFile = true;
-      const fileInfo = await this[ACTION_SEND_FILE](file);
-      if (fileInfo)
-        await this[ACTION_UPDATE_FILE_INFO]({
-          _id: fileInfo._id,
-          type: this.selectedType
-        })
+      await this[ACTION_SEND_FILE]({
+        file,
+        type: this.selectedType
+      });
       this.isParsingFile = false;
     },
   }

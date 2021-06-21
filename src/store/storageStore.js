@@ -1,15 +1,17 @@
 import {API} from "@/API";
+import {VueApp} from "../main";
+import {saveAs} from 'file-saver';
 
 export const ACTION_SEND_FILE = 'ACTION_SEND_FILE';
 export const ACTION_DELETE_FILE = 'ACTION_DELETE_FILE';
-export const ACTION_UPDATE_FILE_INFO = 'ACTION_UPDATE_FILE_INFO';
+export const ACTION_DOWNLOAD_FILE = 'ACTION_DOWNLOAD_FILE';
 
 const MUTATION_ADD_FILE = 'MUTATION_ADD_FILE';
 const MUTATION_DELETE_FILE = 'MUTATION_DELETE_FILE';
 const MUTATION_SET_TIMER = 'MUTATION_SET_TIMER';
 const MUTATION_UPDATE_FILE_INFO = 'MUTATION_UPDATE_FILE_INFO';
 
-export const Storage = {
+export const StorageStore = {
     state: {
         activeParsingFiles: [],
         timer_id: 0,
@@ -17,24 +19,11 @@ export const Storage = {
 
     actions: {
 
-        async [ACTION_SEND_FILE] (ctx, file) {
+        async [ACTION_SEND_FILE] ({ commit, state }, {file, type}) {
             try {
                 const fileInfo = await API.Storage.SendFile(file);
-                return fileInfo;
-            } catch (e) {
-                console.error(e);
-                this._vm.$notify({
-                    title: 'Ошибка загрузки файла',
-                    text: e,
-                    type: 'error',
-                })
-            }
-        },
-
-        async [ACTION_UPDATE_FILE_INFO] ({commit, state}, {_id, type}) {
-            try {
-                const fileInfo = await API.Storage.UpdateFileInfo(_id, type);
-                commit(MUTATION_ADD_FILE, fileInfo);
+                const updatedFileInfo = await API.Storage.UpdateFileInfo(fileInfo._id, type);
+                commit(MUTATION_ADD_FILE, updatedFileInfo);
                 if (state.timer_id === 0) {
                     const timer_id = setInterval(async () => {
                         const files = state.activeParsingFiles.filter(item => item.result === 'InProgress');
@@ -44,7 +33,6 @@ export const Storage = {
                             commit(MUTATION_SET_TIMER, 0);
                         }
 
-
                         for (const file of files) {
                             const updatedFileInfo = await API.Storage.GetFileInfo(file._id);
                             commit(MUTATION_UPDATE_FILE_INFO, updatedFileInfo);
@@ -52,18 +40,26 @@ export const Storage = {
                     },2000);
                     commit(MUTATION_SET_TIMER, timer_id);
                 }
+                return !!updatedFileInfo;
             } catch (e) {
-                console.error(e);
-                this._vm.$notify({
-                    title: 'Ошибка обновления данных о файле',
-                    text: e,
-                    type: 'error',
-                })
+                VueApp.handleError(e);
+                return false;
             }
         },
 
         [ACTION_DELETE_FILE] ({commit}, _id) {
             commit(MUTATION_DELETE_FILE, _id);
+        },
+
+        async [ACTION_DOWNLOAD_FILE] (ctx, filename) {
+            try {
+                const arrayOfBuffer = await API.Storage.DownloadFile(filename);
+                saveAs(new Blob([arrayOfBuffer],{type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"}));
+                return true;
+            } catch (e) {
+                VueApp.handleError(e);
+                return false;
+            }
         }
     },
 

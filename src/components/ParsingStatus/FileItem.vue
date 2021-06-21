@@ -29,7 +29,7 @@
 
 <script>
 import {mapActions} from "vuex";
-import {ACTION_DELETE_FILE} from "@/store/storage";
+import {ACTION_DELETE_FILE} from "@/store/storageStore";
 import StatusParsing from "@/components/ParsingStatus/StatusParsing";
 
 export default {

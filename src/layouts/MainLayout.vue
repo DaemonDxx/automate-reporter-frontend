@@ -1,4 +1,3 @@
-//TODO сделать нормальную ссылку на лого
 <template>
   <div>
     <v-app-bar
@@ -54,7 +53,7 @@
 <script>
 
 import {mapActions, mapGetters} from "vuex";
-import {ACTION_LOGOUT} from "@/store/auth";
+import {ACTION_LOGOUT} from "@/store/authStore";
 import ParsingFileDialog from "@/components/ParsingStatus/ParsingFileDialog";
 import NavigationBar from "../components/MainLayout/NavigationBar";
 import MyFooter from "../components/MainLayout/MyFooter";

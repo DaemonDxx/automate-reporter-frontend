@@ -77,7 +77,7 @@
 
 <script>
 import {mapActions} from "vuex";
-import {ACTION_REGISTRATION_USER} from "@/store/auth";
+import {ACTION_REGISTRATION_USER} from "@/store/authStore";
 import {
   required,
   minLength,
@@ -105,13 +105,13 @@ export default {
       this.$v.$touch();
       if (!this.$v.$error) {
         this.isSendRequest = true;
-        const user = await this[ACTION_REGISTRATION_USER]({
+        const result = await this[ACTION_REGISTRATION_USER]({
             username: this.username,
             password: this.password,
             key: this.key,
         });
         this.isSendRequest = false;
-        if (user)
+        if (result)
           setTimeout(() => {
                 this.$router.push('/auth/login');
           }, 1000);

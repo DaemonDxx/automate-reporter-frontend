@@ -63,7 +63,7 @@
 import {validationMixin} from "vuelidate";
 import {required} from "vuelidate/lib/validators";
 import {mapActions} from "vuex";
-import {ACTION_LOGIN} from "@/store/auth";
+import {ACTION_LOGIN} from "@/store/authStore";
 
 export default {
   name: "LoginView",
@@ -85,11 +85,8 @@ export default {
           username: this.username,
           password: this.password,
         });
-        console.log(result);
-        if (result)
-          await this.$router.push('/');
-        else
-          this.isSendRequest = false;
+        if (result) await this.$router.push('/');
+        this.isSendRequest = false;
       }
     }
   },

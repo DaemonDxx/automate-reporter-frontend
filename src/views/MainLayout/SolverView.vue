@@ -63,7 +63,7 @@
               />
             </v-col>
           </v-row>
-          <span>Отпуск в сеть {{dynamicWord}} на <b>{{offset}} ({{percent}}%)</b></span>
+          <span>Отпуск в сеть {{dynamicWord}} на <b>{{offset | formatNumber}} ({{percent | formatNumber}}%)</b></span>
         </v-card-text>
         <v-card-actions>
           <v-spacer/>
@@ -85,10 +85,11 @@
 <script>
 import {DepartmentsList} from "@/departments";
 import {mapActions} from "vuex";
-import {ACTION_SOLVE_PERSONAL_OFFSET} from "@/store/value";
 import {validationMixin} from "vuelidate";
 import {maxValue, minValue, required} from "vuelidate/lib/validators";
+import {ACTION_PERSONAL_SOLVE} from "../../store/solverStore";
 
+//TODO добавить историю решений
 export default {
   name: "SolverView",
   data: () => {
@@ -101,19 +102,15 @@ export default {
         department: '"Алтайэнерго"'
       },
       offset: 0,
-      percent: 0,
     }
   },
   methods: {
-    ...mapActions([ACTION_SOLVE_PERSONAL_OFFSET]),
+    ...mapActions([ACTION_PERSONAL_SOLVE]),
 
     async getOffset() {
       this.$v.$touch();
       if (this.$v.$error) return;
-      const offset = await this[ACTION_SOLVE_PERSONAL_OFFSET](this.query);
-      const intl = Intl.NumberFormat('ru-RU')
-      this.percent = ((offset/this.query.reception)*100).toFixed(2);
-      this.offset = intl.format(offset.toFixed(3));
+      this.offset = await this[ACTION_PERSONAL_SOLVE](this.query);
     }
   },
 
@@ -147,7 +144,12 @@ export default {
 
     dynamicWord: function () {
       return parseFloat(this.offset.toString().replace(',', '.'))*100 > 0 ? 'вырастет' : 'снизится';
-    }
+    },
+
+    percent: function () {
+      const reception = isNaN(this.query.reception) ? 0 : this.query.reception;
+      return typeof this.offset === 'number' && this.query.reception > 0 ? ((this.offset/(reception))*100).toFixed(2) : 0;
+    },
   },
 
   validations: {
@@ -166,6 +168,13 @@ export default {
         minValue: minValue(-40),
         maxValue: maxValue(40),
       }
+    }
+  },
+
+  filters: {
+    formatNumber: function (value) {
+      const intl = Intl.NumberFormat('ru-RU')
+      return typeof value === 'number' ? intl.format(value.toFixed(3)) : value;
     }
   },
 

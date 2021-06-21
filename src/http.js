@@ -1,10 +1,10 @@
 import axios from "axios";
 import { VueApp } from './main';
-import {ACTION_LOGOUT} from "./store/auth";
+import {ACTION_LOGOUT} from "./store/authStore";
 
 //const URL = `http://balans-help.ru:3000/`;
-const URL = `http://194.58.119.107:3000/`;
-//const URL = `http://localhost:3000/`;
+//const URL = `http://194.58.119.107:3000/`;
+const URL = `http://localhost:3000/`;
 
 const http = new axios.create({
     baseURL: URL,
@@ -18,35 +18,21 @@ const http = new axios.create({
 http.interceptors.response.use((value) => {
     return Promise.resolve(value);
 }, async (err) => {
-    const {statusCode, message} = err.response.data;
-    switch (statusCode) {
-        case 401:
-            if (err.request.responseURL === 'http://localhost:3000/auth/login') {
-                VueApp.$notify({
-                    type: 'error',
-                    title: 'Вход не удался',
-                    text: `Не верный логин или пароль`,
-                });
-                VueApp.$notify({
-                    type: 'error',
-                    title: 'Вход не выполнен',
-                    text: `Не верный логин или пароль`,
-                })
-                return Promise.reject(new Error('Не верный логин или пароль'));
-            }
-
-            await VueApp.$store.dispatch(ACTION_LOGOUT);
-            await VueApp.$router.push('/auth');
-            break;
-        default:
-            VueApp.$notify({
-                type: 'error',
-                title: 'Запрос не выполнен',
-                text: `Код ошибки ${statusCode} - ${message}`,
-            })
+    const response = err.response;
+    const {statusCode} = response.data;
+    if (statusCode === 401 && response.config.url !== "auth/login") {
+        await VueApp.$store.dispatch(ACTION_LOGOUT);
+        await VueApp.$router.push('/auth');
+        return;
     }
-    console.error(err);
-    return Promise.resolve(null);
+    if (statusCode === 500) {
+        VueApp.$notify({
+            title: 'Ошибка выполнения запроса',
+            text: 'Неизвестная ошибка от сервера',
+            type: 'error',
+        })
+    }
+    return Promise.reject(err);
 })
 
 

@@ -13,7 +13,7 @@
 <script>
 
 import {mapActions, mapGetters} from "vuex";
-import {ACTION_UPDATE_USER_INFO} from "@/store/auth";
+import {ACTION_UPDATE_USER_INFO} from "@/store/authStore";
 
 export default {
   name: 'App',
