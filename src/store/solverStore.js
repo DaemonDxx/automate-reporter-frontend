@@ -1,5 +1,6 @@
 import {API} from "../API";
 import {VueApp} from "../main";
+import {getErrorMessage} from "../utils/errors/GetErrorMessage";
 import {Departments} from "../departments";
 
 export const ACTION_PERSONAL_SOLVE = 'ACTION_PERSONAL_SOLVE';

@@ -2,9 +2,7 @@ import axios from "axios";
 import { VueApp } from './main';
 import {ACTION_LOGOUT} from "./store/authStore";
 
-//const URL = `http://balans-help.ru:3000/`;
-const URL = `http://еронин.ru.com:3000/`;
-//const URL = `http://localhost:3000/`;
+const URL = `http://194.58.119.107:3000/`;
 
 const http = new axios.create({
     baseURL: URL,
